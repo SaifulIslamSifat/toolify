@@ -166,7 +166,7 @@ export default function FiverrDeliverableFormatter() {
             >
               <div className="flex items-center justify-between mb-1">
                 <span className="text-xs font-extrabold text-slate-900 dark:text-white">Option A</span>
-                <span className="font-mono text-xs font-black text-brand-600">- Item</span>
+                <span className="font-mono text-xs font-black text-brand-600 dark:text-brand-400">- Item</span>
               </div>
               <p className="text-[11px] text-slate-500">Hyphen Prefix</p>
             </button>
@@ -183,7 +183,7 @@ export default function FiverrDeliverableFormatter() {
             >
               <div className="flex items-center justify-between mb-1">
                 <span className="text-xs font-extrabold text-slate-900 dark:text-white">Option B</span>
-                <span className="font-mono text-xs font-black text-brand-600">I. Item</span>
+                <span className="font-mono text-xs font-black text-brand-600 dark:text-brand-400">I. Item</span>
               </div>
               <p className="text-[11px] text-slate-500">Roman Numerals (I-3999)</p>
             </button>
@@ -200,7 +200,7 @@ export default function FiverrDeliverableFormatter() {
             >
               <div className="flex items-center justify-between mb-1">
                 <span className="text-xs font-extrabold text-slate-900 dark:text-white">Option C</span>
-                <span className="font-mono text-xs font-black text-brand-600">1. Item</span>
+                <span className="font-mono text-xs font-black text-brand-600 dark:text-brand-400">1. Item</span>
               </div>
               <p className="text-[11px] text-slate-500">Standard Numbers</p>
             </button>
@@ -217,7 +217,7 @@ export default function FiverrDeliverableFormatter() {
             >
               <div className="flex items-center justify-between mb-1">
                 <span className="text-xs font-extrabold text-slate-900 dark:text-white">Option D</span>
-                <span className="font-mono text-xs font-black text-brand-600">• Item</span>
+                <span className="font-mono text-xs font-black text-brand-600 dark:text-brand-400">• Item</span>
               </div>
               <p className="text-[11px] text-slate-500">Bullet Points</p>
             </button>

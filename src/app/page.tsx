@@ -16,6 +16,7 @@ import {
 } from "lucide-react";
 import { CATEGORIES, getPopularTools, getFeaturedTools, TOOLS } from "@/lib/tools-registry";
 import ToolCard from "@/components/ToolCard";
+import ToolIcon from "@/components/ToolIcon";
 import SearchModal from "@/components/SearchModal";
 
 export default function HomePage() {
@@ -172,7 +173,7 @@ export default function HomePage() {
               >
                 <div className="flex items-center justify-between mb-4">
                   <div className={`w-12 h-12 rounded-xl bg-gradient-to-r ${cat.gradient} flex items-center justify-center text-white shadow-md group-hover:scale-105 transition-transform`}>
-                    <Layers className="w-6 h-6 text-white" />
+                    <ToolIcon icon={cat.icon} category={cat.id} className="w-6 h-6 text-white" />
                   </div>
                   <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">
                     {count} tools

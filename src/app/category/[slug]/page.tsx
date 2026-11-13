@@ -1,9 +1,10 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { ChevronRight, Layers } from "lucide-react";
+import { ChevronRight } from "lucide-react";
 import { CATEGORIES, getToolsByCategory } from "@/lib/tools-registry";
 import { ToolCategory } from "@/lib/types";
 import ToolCard from "@/components/ToolCard";
+import ToolIcon from "@/components/ToolIcon";
 import type { Metadata } from "next";
 
 interface CategoryPageProps {
@@ -57,7 +58,7 @@ export default function CategoryPage({ params }: CategoryPageProps) {
       <div className="mb-10 p-8 rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div className="flex items-center gap-4">
           <div className={`w-14 h-14 rounded-2xl bg-gradient-to-r ${category.gradient} flex items-center justify-center text-white shadow-md flex-shrink-0`}>
-            <Layers className="w-7 h-7" />
+            <ToolIcon icon={category.icon} category={category.id} className="w-7 h-7 text-white" />
           </div>
           <div>
             <div className="flex items-center gap-2.5">

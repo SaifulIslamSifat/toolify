@@ -15,6 +15,7 @@ import {
 import { ToolDefinition } from "@/lib/types";
 import { getRelatedTools } from "@/lib/tools-registry";
 import ToolCard from "./ToolCard";
+import ToolIcon, { CATEGORY_ICON_THEMES } from "./ToolIcon";
 import AdPlaceholder from "./AdPlaceholder";
 import { copyToClipboard } from "@/lib/utils";
 
@@ -28,6 +29,7 @@ export default function ToolLayout({ tool, children }: ToolLayoutProps) {
   const [copiedShare, setCopiedShare] = useState(false);
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(null);
   const relatedTools = getRelatedTools(tool.slug, 3);
+  const theme = CATEGORY_ICON_THEMES[tool.category] || CATEGORY_ICON_THEMES.developer;
 
   useEffect(() => {
     try {
@@ -76,17 +78,17 @@ export default function ToolLayout({ tool, children }: ToolLayoutProps) {
     <div className="min-h-screen py-8 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
       {/* 1. Breadcrumbs */}
       <nav className="flex items-center gap-2 text-xs text-slate-500 mb-6 flex-wrap">
-        <Link href="/" className="hover:text-brand-600 transition-colors">
+        <Link href="/" className="hover:text-brand-600 dark:hover:text-brand-400 transition-colors">
           Home
         </Link>
         <ChevronRight className="w-3 h-3 text-slate-400" />
-        <Link href="/tools" className="hover:text-brand-600 transition-colors">
+        <Link href="/tools" className="hover:text-brand-600 dark:hover:text-brand-400 transition-colors">
           Tools
         </Link>
         <ChevronRight className="w-3 h-3 text-slate-400" />
         <Link
           href={`/category/${tool.category}`}
-          className="hover:text-brand-600 capitalize transition-colors"
+          className="hover:text-brand-600 dark:hover:text-brand-400 capitalize transition-colors"
         >
           {tool.category.replace("-", " ")}
         </Link>
@@ -94,22 +96,29 @@ export default function ToolLayout({ tool, children }: ToolLayoutProps) {
         <span className="text-slate-800 dark:text-slate-200 font-medium truncate">{tool.name}</span>
       </nav>
 
-      {/* 2. Tool Title, Description, and Actions */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
-        <div>
-          <div className="flex items-center gap-2.5 mb-2">
-            <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">
-              {tool.name}
-            </h1>
-            {tool.badge && (
-              <span className="px-2.5 py-0.5 text-xs font-bold rounded-full bg-brand-100 dark:bg-brand-950/80 text-brand-700 dark:text-brand-300 border border-brand-200 dark:border-brand-800">
-                {tool.badge}
-              </span>
-            )}
+      {/* 2. Tool Title, Description, Icon, and Actions */}
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8">
+        <div className="flex items-start gap-4">
+          <div
+            className={`w-14 h-14 rounded-2xl ${theme.bg} ${theme.text} border ${theme.border} flex items-center justify-center flex-shrink-0 shadow-sm mt-0.5`}
+          >
+            <ToolIcon icon={tool.icon} category={tool.category} className="w-7 h-7" />
           </div>
-          <p className="text-sm sm:text-base text-slate-600 dark:text-slate-400 max-w-3xl leading-relaxed">
-            {tool.description}
-          </p>
+          <div>
+            <div className="flex items-center gap-2.5 mb-1.5 flex-wrap">
+              <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">
+                {tool.name}
+              </h1>
+              {tool.badge && (
+                <span className="px-2.5 py-0.5 text-xs font-bold rounded-full bg-brand-100 dark:bg-brand-950/80 text-brand-700 dark:text-brand-300 border border-brand-200 dark:border-brand-800">
+                  {tool.badge}
+                </span>
+              )}
+            </div>
+            <p className="text-sm sm:text-base text-slate-600 dark:text-slate-400 max-w-3xl leading-relaxed">
+              {tool.description}
+            </p>
+          </div>
         </div>
 
         <div className="flex items-center gap-2 self-start md:self-auto flex-shrink-0">
@@ -119,7 +128,7 @@ export default function ToolLayout({ tool, children }: ToolLayoutProps) {
             className={`flex items-center gap-1.5 px-3 py-2 rounded-xl border text-xs font-semibold transition-all ${
               isFavorite
                 ? "border-amber-300 bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-300"
-                : "border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 hover:border-slate-300"
+                : "border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 hover:border-slate-300 dark:hover:border-slate-700"
             }`}
           >
             <Star className={`w-3.5 h-3.5 ${isFavorite ? "fill-amber-400 text-amber-500" : ""}`} />
@@ -129,7 +138,7 @@ export default function ToolLayout({ tool, children }: ToolLayoutProps) {
           <button
             onClick={handleShare}
             aria-label="Share tool link"
-            className="flex items-center gap-1.5 px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 hover:border-slate-300 text-xs font-semibold transition-all"
+            className="flex items-center gap-1.5 px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 hover:border-slate-300 dark:hover:border-slate-700 text-xs font-semibold transition-all"
           >
             {copiedShare ? (
               <>
@@ -169,7 +178,7 @@ export default function ToolLayout({ tool, children }: ToolLayoutProps) {
                 key={idx}
                 className="relative flex flex-col p-6 rounded-2xl border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm"
               >
-                <div className="w-8 h-8 rounded-xl bg-brand-50 dark:bg-brand-950/60 text-brand-600 dark:text-brand-400 font-bold text-sm flex items-center justify-center mb-3">
+                <div className={`w-8 h-8 rounded-xl ${theme.bg} ${theme.text} border ${theme.border} font-bold text-sm flex items-center justify-center mb-3`}>
                   {idx + 1}
                 </div>
                 <h3 className="text-base font-semibold text-slate-900 dark:text-white mb-1.5">
@@ -208,7 +217,7 @@ export default function ToolLayout({ tool, children }: ToolLayoutProps) {
                     <span>{faq.question}</span>
                     <ChevronDown
                       className={`w-4 h-4 text-slate-400 transition-transform ${
-                        isOpen ? "rotate-180 text-brand-600" : ""
+                        isOpen ? "rotate-180 text-brand-600 dark:text-brand-400" : ""
                       }`}
                     />
                   </button>

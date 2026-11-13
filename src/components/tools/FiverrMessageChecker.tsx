@@ -444,11 +444,11 @@ export default function FiverrMessageChecker() {
       >
         <div className="flex items-center gap-3">
           {detectedIssues.length === 0 ? (
-            <div className="w-11 h-11 rounded-xl bg-emerald-500 text-white flex items-center justify-center flex-shrink-0 shadow-sm">
+            <div className="w-11 h-11 rounded-xl bg-emerald-100 dark:bg-emerald-950/80 text-emerald-600 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800 flex items-center justify-center flex-shrink-0 shadow-sm">
               <ShieldCheck className="w-6 h-6" />
             </div>
           ) : (
-            <div className="w-11 h-11 rounded-xl bg-rose-500 text-white flex items-center justify-center flex-shrink-0 shadow-sm">
+            <div className="w-11 h-11 rounded-xl bg-rose-100 dark:bg-rose-950/80 text-rose-600 dark:text-rose-400 border border-rose-200 dark:border-rose-800 flex items-center justify-center flex-shrink-0 shadow-sm">
               <ShieldAlert className="w-6 h-6" />
             </div>
           )}

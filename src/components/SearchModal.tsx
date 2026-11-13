@@ -3,9 +3,10 @@
 import { useEffect, useState, useRef } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Search, X, ArrowRight, CornerDownLeft, Sparkles, Layers } from "lucide-react";
+import { Search, X, ArrowRight, CornerDownLeft } from "lucide-react";
 import { searchTools, TOOLS } from "@/lib/tools-registry";
 import { ToolDefinition } from "@/lib/types";
+import ToolIcon, { CATEGORY_ICON_THEMES } from "./ToolIcon";
 
 interface SearchModalProps {
   isOpen: boolean;
@@ -109,52 +110,55 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
             </div>
           ) : (
             <div className="space-y-1">
-              {results.map((tool, idx) => (
-                <Link
-                  key={tool.slug}
-                  href={`/tools/${tool.slug}`}
-                  onClick={onClose}
-                  onMouseEnter={() => setSelectedIndex(idx)}
-                  className={`flex items-center justify-between p-3 rounded-xl transition-colors ${
-                    idx === selectedIndex
-                      ? "bg-brand-50 dark:bg-brand-950/40 border border-brand-200 dark:border-brand-800/60"
-                      : "hover:bg-slate-50 dark:hover:bg-slate-800/50 border border-transparent"
-                  }`}
-                >
-                  <div className="flex items-center gap-3 min-w-0">
-                    <div
-                      className={`w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0 ${
-                        idx === selectedIndex
-                          ? "bg-brand-600 text-white"
-                          : "bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300"
-                      }`}
-                    >
-                      <Layers className="w-4 h-4" />
-                    </div>
-                    <div className="min-w-0">
-                      <div className="flex items-center gap-2">
-                        <span className="text-sm font-semibold text-slate-900 dark:text-slate-100 truncate">
-                          {tool.name}
-                        </span>
-                        {tool.badge && (
-                          <span className="px-1.5 py-0.5 text-[10px] font-bold rounded bg-brand-100 dark:bg-brand-900/60 text-brand-700 dark:text-brand-300">
-                            {tool.badge}
-                          </span>
-                        )}
+              {results.map((tool, idx) => {
+                const theme = CATEGORY_ICON_THEMES[tool.category] || CATEGORY_ICON_THEMES.developer;
+                return (
+                  <Link
+                    key={tool.slug}
+                    href={`/tools/${tool.slug}`}
+                    onClick={onClose}
+                    onMouseEnter={() => setSelectedIndex(idx)}
+                    className={`flex items-center justify-between p-3 rounded-xl transition-colors ${
+                      idx === selectedIndex
+                        ? "bg-brand-50 dark:bg-brand-950/40 border border-brand-200 dark:border-brand-800/60"
+                        : "hover:bg-slate-50 dark:hover:bg-slate-800/50 border border-transparent"
+                    }`}
+                  >
+                    <div className="flex items-center gap-3 min-w-0">
+                      <div
+                        className={`w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0 border ${
+                          idx === selectedIndex
+                            ? "bg-brand-600 text-white border-brand-500"
+                            : `${theme.bg} ${theme.text} ${theme.border}`
+                        }`}
+                      >
+                        <ToolIcon icon={tool.icon} category={tool.category} className="w-4 h-4" />
                       </div>
-                      <p className="text-xs text-slate-500 dark:text-slate-400 truncate max-w-md">
-                        {tool.shortDescription}
-                      </p>
+                      <div className="min-w-0">
+                        <div className="flex items-center gap-2">
+                          <span className="text-sm font-semibold text-slate-900 dark:text-slate-100 truncate">
+                            {tool.name}
+                          </span>
+                          {tool.badge && (
+                            <span className="px-1.5 py-0.5 text-[10px] font-bold rounded bg-brand-100 dark:bg-brand-900/60 text-brand-700 dark:text-brand-300">
+                              {tool.badge}
+                            </span>
+                          )}
+                        </div>
+                        <p className="text-xs text-slate-500 dark:text-slate-400 truncate max-w-md">
+                          {tool.shortDescription}
+                        </p>
+                      </div>
                     </div>
-                  </div>
-                  <div className="flex items-center gap-2 flex-shrink-0 ml-2">
-                    <span className="text-[11px] font-medium text-slate-400 capitalize px-2 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800">
-                      {tool.category}
-                    </span>
-                    <ArrowRight className="w-4 h-4 text-slate-400" />
-                  </div>
-                </Link>
-              ))}
+                    <div className="flex items-center gap-2 flex-shrink-0 ml-2">
+                      <span className="text-[11px] font-medium text-slate-400 capitalize px-2 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800">
+                        {tool.category}
+                      </span>
+                      <ArrowRight className="w-4 h-4 text-slate-400" />
+                    </div>
+                  </Link>
+                );
+              })}
             </div>
           )}
         </div>
