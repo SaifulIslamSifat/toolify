@@ -38,7 +38,7 @@ export const POLICY_RULES: PolicyRule[] = [
     id: "pay_word",
     category: "Payment Terms",
     severity: "high",
-    pattern: /\b(pay|payments?|paid|paying)\b/gi,
+    pattern: /(payments?|paying|paid|(?<!pa)pay(?!a))/gi,
     label: "Payment Keyword",
     explanation:
       "Direct mentions of 'pay' or 'payment' trigger Fiverr's payment filter. Off-platform payment solicitation violates Fiverr TOS.",
@@ -49,7 +49,7 @@ export const POLICY_RULES: PolicyRule[] = [
     category: "Payment Terms",
     severity: "high",
     pattern:
-      /\b(paypal|pay pal|crypto|cryptocurrency|bitcoin|btc|usdt|ethereum|venmo|zelle|cashapp|cash app|wire transfer|bank transfer|western union|payoneer|wise|moneygram)\b/gi,
+      /(paypal|pay\s*pal|crypto|cryptocurrency|bitcoin|btc|usdt|ethereum|venmo|(?<!ga)zelle|cash\s*app|cashapp|wire\s*transfer|bank\s*transfer|western\s*union|payoneer|(?<!other|like|step|clock)wise|moneygram)/gi,
     label: "External Payment Method",
     explanation:
       "Explicit payment processor names will immediately trigger automated account flags.",
@@ -60,7 +60,7 @@ export const POLICY_RULES: PolicyRule[] = [
     category: "Payment Terms",
     severity: "high",
     pattern:
-      /\b(pay outside|pay me outside|pay directly|direct payment|pay me off-site|transfer money directly|pay cash|off-platform payment)\b/gi,
+      /(pay\s*outside|pay\s*me\s*outside|pay\s*directly|direct\s*payment|pay\s*me\s*off-?site|transfer\s*money\s*directly|pay\s*cash|off-?platform\s*payment)/gi,
     label: "Direct Payment Request",
     explanation:
       "Asking buyers to pay directly outside Fiverr's escrow checkout leads to permanent account suspension.",
@@ -72,7 +72,7 @@ export const POLICY_RULES: PolicyRule[] = [
     id: "email_word",
     category: "Email & Messaging",
     severity: "high",
-    pattern: /\b(emails?|e-mails?)\b/gi,
+    pattern: /(emails?|e-mails?)/gi,
     label: "Email Mention",
     explanation:
       "Mentioning 'email' alerts Fiverr's automated compliance monitors to potential off-platform communication.",
@@ -83,7 +83,7 @@ export const POLICY_RULES: PolicyRule[] = [
     id: "email_address",
     category: "Email & Messaging",
     severity: "high",
-    pattern: /\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b/gi,
+    pattern: /[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}/gi,
     label: "Email Address",
     explanation:
       "Sharing raw email addresses is strictly flagged by Fiverr's automated inbox scanners.",
@@ -94,7 +94,7 @@ export const POLICY_RULES: PolicyRule[] = [
     category: "Email & Messaging",
     severity: "high",
     pattern:
-      /\b(send me your email|my email is|email me at|share your email|what is your email|inbox me at)\b/gi,
+      /(send\s*me\s*your\s*email|my\s*email\s*is|email\s*me\s*at|share\s*your\s*email|what\s*is\s*your\s*email|inbox\s*me\s*at)/gi,
     label: "Email Solicitation Phrase",
     explanation:
       "Requesting a buyer's email address is flagged as an attempt to bypass Fiverr communication.",
@@ -104,7 +104,7 @@ export const POLICY_RULES: PolicyRule[] = [
     id: "email_providers",
     category: "Email & Messaging",
     severity: "medium",
-    pattern: /\b(gmail|yahoo mail|hotmail|outlook\.com)\b/gi,
+    pattern: /(gmail(\.com)?|yahoo\s*mail|hotmail(\.com)?|outlook\.com)/gi,
     label: "Email Provider Mention",
     explanation:
       "Referring to specific email service providers is often flagged by content moderation.",
@@ -116,7 +116,7 @@ export const POLICY_RULES: PolicyRule[] = [
     id: "whatsapp",
     category: "Direct Contact",
     severity: "high",
-    pattern: /\b(whats[ -]?app|whatapp|wa\.me)\b/gi,
+    pattern: /(whats[ -]?app|whatapp|wa\.me)/gi,
     label: "WhatsApp Mention",
     explanation:
       "WhatsApp communication is strictly banned on Fiverr and is a top cause of instant account bans.",
@@ -127,7 +127,7 @@ export const POLICY_RULES: PolicyRule[] = [
     category: "Direct Contact",
     severity: "high",
     pattern:
-      /\b(contact me|contact us|reach me|reach out to me|talk outside|communicate outside|outside fiverr|off-platform|offsite)\b/gi,
+      /(contact\s*me|contact\s*us|reach\s*me|reach\s*out\s*to\s*me|talk\s*outside|communicate\s*outside|outside\s*fiverr|off-?platform|offsite)/gi,
     label: "Outside Communication Phrase",
     explanation:
       "Asking a client to contact you outside Fiverr violates the Terms of Service.",
@@ -138,7 +138,7 @@ export const POLICY_RULES: PolicyRule[] = [
     category: "Direct Contact",
     severity: "high",
     pattern:
-      /\b(phone number|phone no|cell number|mobile number|call me|call on my phone|give me your number|text my number|my phone|my number)\b/gi,
+      /(phone\s*number|phone\s*no\.?|cell\s*number|mobile\s*number|call\s*me|call\s*on\s*my\s*phone|give\s*me\s*your\s*number|text\s*my\s*number|my\s*phone|my\s*number|(?<!micro|head|ear|mega|saxo)phones?)/gi,
     label: "Phone Contact Request",
     explanation:
       "Direct phone calls and exchanging phone numbers are prohibited on Fiverr.",
@@ -148,7 +148,7 @@ export const POLICY_RULES: PolicyRule[] = [
     id: "phone_digits",
     category: "Direct Contact",
     severity: "high",
-    pattern: /\b(\+?\d{1,3}[-.\s]?)?(\(?\d{3}\)?[-.\s]?)?\d{3}[-.\s]?\d{4}\b/gi,
+    pattern: /(\+?\d{1,3}[-.\s]?)?(\(?\d{3}\)?[-.\s]?)?\d{3}[-.\s]?\d{4}/gi,
     label: "Phone Number Pattern",
     explanation:
       "Numerical telephone formats are automatically caught by pattern filters.",
@@ -161,7 +161,7 @@ export const POLICY_RULES: PolicyRule[] = [
     category: "External Platforms",
     severity: "high",
     pattern:
-      /\b(skype|telegram|discord|wechat|viber|signal|google meet|teams link)\b/gi,
+      /(skype|telegram|discord|wechat|viber|\bsignal\b|google\s*meet|teams\s*link)/gi,
     label: "External Chat App",
     explanation:
       "Exchanging external communication channels removes order tracking and client protection.",
@@ -171,7 +171,7 @@ export const POLICY_RULES: PolicyRule[] = [
     id: "zoom_unapproved",
     category: "External Platforms",
     severity: "medium",
-    pattern: /\b(zoom link|join my zoom|schedule a zoom|private zoom)\b/gi,
+    pattern: /(zoom\s*(link|meeting|call|session)|join\s*my\s*zoom|schedule\s*a\s*zoom|private\s*zoom)/gi,
     label: "Private Zoom Meeting",
     explanation:
       "Third-party video links are prohibited. Use Fiverr's official integrated Zoom meeting feature on the order page if video is required.",
@@ -184,7 +184,7 @@ export const POLICY_RULES: PolicyRule[] = [
     category: "Review Policy",
     severity: "high",
     pattern:
-      /\b(5[- ]?stars?|five[- ]?stars?|positive review|leave 5 star|good review|5-star rating|give 5 star)\b/gi,
+      /(5[- ]?stars?|five[- ]?stars?|positive\s*review|leave\s*5\s*star|good\s*review|5-star\s*rating|give\s*5\s*star)/gi,
     label: "Review Solicitation",
     explanation:
       "Asking specifically for 5 stars or positive ratings violates Fiverr's Feedback Manipulation policy.",
@@ -194,7 +194,7 @@ export const POLICY_RULES: PolicyRule[] = [
     id: "review_exchange",
     category: "Review Policy",
     severity: "high",
-    pattern: /\b(review exchange|swap reviews|trade reviews)\b/gi,
+    pattern: /(review\s*exchange|swap\s*reviews?|trade\s*reviews?)/gi,
     label: "Review Exchange",
     explanation:
       "Review swapping is classified as fraudulent manipulation and results in permanent ban.",
@@ -207,7 +207,7 @@ export const POLICY_RULES: PolicyRule[] = [
     category: "Academic Integrity",
     severity: "high",
     pattern:
-      /\b(do my homework|write my thesis|take my exam|solve my test|academic paper for school|write my essay)\b/gi,
+      /(do\s*my\s*homework|write\s*my\s*thesis|take\s*my\s*exam|solve\s*my\s*test|academic\s*paper\s*for\s*school|write\s*my\s*essay)/gi,
     label: "Academic Integrity Violation",
     explanation:
       "Completing graded academic homework or university exams on behalf of students is prohibited.",
@@ -491,6 +491,7 @@ export default function FiverrMessageChecker() {
         <div className="flex flex-wrap gap-2">
           {[
             "please pay in fiverr then we will talk in email.",
+            "iampay and sendtoemail please.",
             "PAY through Fiverr.",
             "Please contact me on WhatsApp.",
             "My EMAIL address is example@example.com.",
@@ -511,7 +512,7 @@ export default function FiverrMessageChecker() {
       {/* Main Grid: Input / Original vs Safe Text Output */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
         {/* Left Column: Original Message Input */}
-        <div className="space-y-4">
+        <div className="space-y-4 flex flex-col">
           <div className="flex items-center justify-between">
             <label className="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 flex items-center gap-2">
               <span>Original Message</span>
@@ -530,14 +531,14 @@ export default function FiverrMessageChecker() {
 
           <div className="relative">
             <textarea
-              rows={9}
+              rows={15}
               value={text}
               onChange={(e) => {
                 setText(e.target.value);
                 setSafeGenerated(false);
               }}
               placeholder="Paste or write your Fiverr message here..."
-              className="w-full p-4 rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white text-sm leading-relaxed focus:outline-none focus:border-brand-500 shadow-inner resize-y font-sans"
+              className="w-full min-h-[380px] sm:min-h-[420px] p-5 rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white text-sm leading-relaxed focus:outline-none focus:border-brand-500 shadow-inner resize-y font-sans transition-all"
             />
           </div>
 
@@ -547,7 +548,7 @@ export default function FiverrMessageChecker() {
               <button
                 onClick={handleClear}
                 disabled={!text}
-                className="flex items-center gap-1.5 px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 hover:text-rose-500 disabled:opacity-40 text-xs font-bold transition-colors"
+                className="flex items-center gap-1.5 px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 hover:text-rose-500 disabled:opacity-40 text-xs font-bold transition-colors"
               >
                 <Trash2 className="w-3.5 h-3.5" />
                 <span>Clear</span>
@@ -556,7 +557,7 @@ export default function FiverrMessageChecker() {
               <button
                 onClick={handleCopyOriginal}
                 disabled={!text}
-                className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:border-slate-400 disabled:opacity-40 text-xs font-bold transition-colors"
+                className="flex items-center gap-1.5 px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:border-slate-400 disabled:opacity-40 text-xs font-bold transition-colors shadow-sm"
               >
                 {copiedOriginal ? (
                   <>
@@ -576,7 +577,7 @@ export default function FiverrMessageChecker() {
             <button
               onClick={handleGenerateSafeText}
               disabled={!text}
-              className="flex items-center gap-2 px-5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 disabled:opacity-40 text-white font-extrabold text-xs shadow-md transition-all"
+              className="flex items-center gap-2 px-6 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 disabled:opacity-40 text-white font-extrabold text-xs shadow-md hover:shadow-lg transition-all"
             >
               <Sparkles className="w-4 h-4" />
               <span>Safe Text</span>
@@ -584,31 +585,31 @@ export default function FiverrMessageChecker() {
           </div>
 
           {/* Visual Highlight Inspection Area */}
-          <div className="p-4 rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50/60 dark:bg-slate-800/20 space-y-2">
+          <div className="p-5 rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50/60 dark:bg-slate-800/20 space-y-3">
             <div className="flex items-center justify-between">
-              <span className="text-[10px] uppercase font-bold text-slate-500 dark:text-slate-400 tracking-wider">
+              <span className="text-xs uppercase font-bold text-slate-600 dark:text-slate-300 tracking-wider">
                 Visual Highlight of Detected Terms
               </span>
-              <span className="text-[10px] text-slate-400">
+              <span className="text-[11px] text-slate-400">
                 {detectedIssues.length === 0
                   ? "Clean text"
                   : "Orange/Red marks = policy risks"}
               </span>
             </div>
-            <div className="text-xs sm:text-sm leading-relaxed max-h-40 overflow-y-auto font-sans p-2 rounded-lg bg-white/70 dark:bg-slate-900/60 border border-slate-100 dark:border-slate-800">
+            <div className="text-sm leading-relaxed min-h-[260px] max-h-[440px] overflow-y-auto font-sans p-4 rounded-xl bg-white/90 dark:bg-slate-900/80 border border-slate-200/80 dark:border-slate-800 shadow-sm">
               {renderHighlightedPreview()}
             </div>
           </div>
         </div>
 
         {/* Right Column: Suggested Safe Text & Output */}
-        <div className="space-y-4">
+        <div className="space-y-4 flex flex-col">
           <div className="flex items-center justify-between">
             <label className="text-xs font-bold uppercase tracking-wider text-emerald-700 dark:text-emerald-400 flex items-center gap-2">
               <Sparkles className="w-3.5 h-3.5" />
               <span>Suggested Safe Text</span>
             </label>
-            <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-emerald-100 dark:bg-emerald-950/80 text-emerald-700 dark:text-emerald-300">
+            <span className="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-emerald-100 dark:bg-emerald-950/80 text-emerald-700 dark:text-emerald-300">
               {safeGenerated || safeTextOutput ? "Safe Revision Ready" : "Click Safe Text"}
             </span>
           </div>
@@ -616,24 +617,24 @@ export default function FiverrMessageChecker() {
           {/* Safe Text Output Box */}
           <div className="relative">
             <textarea
-              rows={9}
+              rows={15}
               readOnly
               value={safeTextOutput || (safeGenerated ? computedSafeText : "")}
               placeholder="Click the 'Safe Text' button to generate a revised message with safe wording..."
-              className="w-full p-4 rounded-2xl border-2 border-emerald-300 dark:border-emerald-800/80 bg-emerald-50/20 dark:bg-emerald-950/10 text-slate-900 dark:text-white text-sm leading-relaxed focus:outline-none shadow-inner resize-y font-sans font-medium"
+              className="w-full min-h-[380px] sm:min-h-[420px] p-5 rounded-2xl border-2 border-emerald-300 dark:border-emerald-800/80 bg-emerald-50/20 dark:bg-emerald-950/10 text-slate-900 dark:text-white text-sm leading-relaxed focus:outline-none shadow-inner resize-y font-sans font-medium transition-all"
             />
           </div>
 
           {/* Safe Text Actions */}
-          <div className="flex items-center justify-between pt-1">
-            <span className="text-xs text-slate-500">
+          <div className="flex flex-wrap items-center justify-between gap-3 pt-1">
+            <span className="text-xs text-slate-500 max-w-xs sm:max-w-md">
               Problematic words rewritten with safe separators (e.g. <code>pay</code> &rarr; <code>p-ay</code>, <code>email</code> &rarr; <code>e-mail</code>)
             </span>
 
             <button
               onClick={handleCopySafeText}
               disabled={!(safeTextOutput || (safeGenerated && computedSafeText))}
-              className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 disabled:opacity-40 text-white font-extrabold text-xs shadow-md transition-all flex-shrink-0"
+              className="flex items-center gap-2 px-6 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 disabled:opacity-40 text-white font-extrabold text-xs shadow-md hover:shadow-lg transition-all flex-shrink-0"
             >
               {copiedSafe ? (
                 <>
@@ -661,21 +662,21 @@ export default function FiverrMessageChecker() {
             </div>
 
             {detectedIssues.length === 0 ? (
-              <div className="p-5 rounded-2xl border border-emerald-200/80 dark:border-emerald-900/60 bg-emerald-50/40 dark:bg-emerald-950/10 text-center space-y-1">
-                <CheckCircle2 className="w-8 h-8 text-emerald-500 mx-auto mb-1" />
-                <p className="text-xs font-bold text-emerald-900 dark:text-emerald-200">
+              <div className="min-h-[260px] p-6 rounded-2xl border border-emerald-200/80 dark:border-emerald-900/60 bg-emerald-50/40 dark:bg-emerald-950/10 text-center flex flex-col items-center justify-center space-y-2">
+                <CheckCircle2 className="w-10 h-10 text-emerald-500 mb-1" />
+                <p className="text-sm font-bold text-emerald-900 dark:text-emerald-200">
                   All clear! No policy-sensitive terms found.
                 </p>
-                <p className="text-[11px] text-emerald-700 dark:text-emerald-400">
+                <p className="text-xs text-emerald-700 dark:text-emerald-400 max-w-sm">
                   The current message does not contain flagged payment or off-platform communication terms.
                 </p>
               </div>
             ) : (
-              <div className="space-y-2.5 max-h-64 overflow-y-auto pr-1">
+              <div className="space-y-2.5 min-h-[260px] max-h-[440px] overflow-y-auto pr-1">
                 {detectedIssues.map((issue, idx) => (
                   <div
                     key={`${issue.id}-${idx}`}
-                    className="p-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 text-xs"
+                    className="p-3.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 text-xs hover:border-slate-300 transition-colors"
                   >
                     <div className="space-y-1">
                       <div className="flex items-center gap-2">
