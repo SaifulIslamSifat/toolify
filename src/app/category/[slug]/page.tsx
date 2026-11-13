@@ -5,6 +5,7 @@ import { CATEGORIES, getToolsByCategory } from "@/lib/tools-registry";
 import { ToolCategory } from "@/lib/types";
 import ToolCard from "@/components/ToolCard";
 import ToolIcon from "@/components/ToolIcon";
+import { CATEGORY_STYLES } from "@/lib/category-styles";
 import type { Metadata } from "next";
 
 interface CategoryPageProps {
@@ -55,33 +56,40 @@ export default function CategoryPage({ params }: CategoryPageProps) {
       </nav>
 
       {/* Category Header */}
-      <div className="mb-10 p-8 rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-6">
-        <div className="flex items-center gap-4">
-          <div className={`w-14 h-14 rounded-2xl bg-gradient-to-r ${category.gradient} flex items-center justify-center text-white shadow-md flex-shrink-0`}>
-            <ToolIcon icon={category.icon} category={category.id} className="w-7 h-7 text-white" />
-          </div>
-          <div>
-            <div className="flex items-center gap-2.5">
-              <h1 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white">
-                {category.name}
-              </h1>
-              <span className="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">
-                {tools.length} tools
-              </span>
+      {(() => {
+        const theme = CATEGORY_STYLES[category.id] || CATEGORY_STYLES.developer;
+        return (
+          <div className="mb-10 p-8 rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-6">
+            <div className="flex items-center gap-4">
+              <div
+                className={`w-14 h-14 rounded-2xl ${theme.bg} ${theme.text} border ${theme.border} flex items-center justify-center flex-shrink-0 shadow-sm`}
+              >
+                <ToolIcon icon={category.icon} className={`w-7 h-7 ${theme.text}`} />
+              </div>
+              <div>
+                <div className="flex items-center gap-2.5">
+                  <h1 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white">
+                    {category.name}
+                  </h1>
+                  <span className="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">
+                    {tools.length} tools
+                  </span>
+                </div>
+                <p className="text-sm text-slate-600 dark:text-slate-400 mt-1 max-w-xl">
+                  {category.description}
+                </p>
+              </div>
             </div>
-            <p className="text-sm text-slate-600 dark:text-slate-400 mt-1 max-w-xl">
-              {category.description}
-            </p>
-          </div>
-        </div>
 
-        <Link
-          href="/tools"
-          className="text-xs font-semibold text-brand-600 dark:text-brand-400 hover:underline self-start md:self-auto"
-        >
-          ← Browse all categories
-        </Link>
-      </div>
+            <Link
+              href="/tools"
+              className="text-xs font-semibold text-brand-600 dark:text-brand-400 hover:underline self-start md:self-auto"
+            >
+              ← Browse all categories
+            </Link>
+          </div>
+        );
+      })()}
 
       {/* Tools Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">

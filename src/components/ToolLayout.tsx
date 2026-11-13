@@ -15,7 +15,8 @@ import {
 import { ToolDefinition } from "@/lib/types";
 import { getRelatedTools } from "@/lib/tools-registry";
 import ToolCard from "./ToolCard";
-import ToolIcon, { CATEGORY_ICON_THEMES } from "./ToolIcon";
+import ToolIcon from "./ToolIcon";
+import { CATEGORY_STYLES } from "@/lib/category-styles";
 import AdPlaceholder from "./AdPlaceholder";
 import { copyToClipboard } from "@/lib/utils";
 
@@ -29,7 +30,7 @@ export default function ToolLayout({ tool, children }: ToolLayoutProps) {
   const [copiedShare, setCopiedShare] = useState(false);
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(null);
   const relatedTools = getRelatedTools(tool.slug, 3);
-  const theme = CATEGORY_ICON_THEMES[tool.category] || CATEGORY_ICON_THEMES.developer;
+  const theme = CATEGORY_STYLES[tool.category] || CATEGORY_STYLES.developer;
 
   useEffect(() => {
     try {

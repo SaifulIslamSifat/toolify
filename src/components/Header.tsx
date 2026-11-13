@@ -7,6 +7,7 @@ import { Wrench, Search, ChevronDown, Menu, X, Sparkles } from "lucide-react";
 import ThemeToggle from "./ThemeToggle";
 import SearchModal from "./SearchModal";
 import { CATEGORIES } from "@/lib/tools-registry";
+import { CATEGORY_STYLES } from "@/lib/category-styles";
 
 export default function Header() {
   const pathname = usePathname();
@@ -80,7 +81,7 @@ export default function Header() {
                         onClick={() => setIsCategoryOpen(false)}
                         className="flex items-center gap-3 p-2 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800/60 text-slate-700 dark:text-slate-200 text-sm font-medium group transition-colors"
                       >
-                        <div className={`w-2 h-2 rounded-full bg-gradient-to-r ${cat.gradient}`} />
+                        <div className={`w-2.5 h-2.5 rounded-full ${CATEGORY_STYLES[cat.id]?.bg || "bg-brand-600"}`} />
                         <span>{cat.name}</span>
                       </Link>
                     ))}

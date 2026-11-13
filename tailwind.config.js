@@ -4,8 +4,14 @@ module.exports = {
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/lib/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   darkMode: "class",
+  safelist: [
+    {
+      pattern: /(from|to|via)-(purple|rose|red|amber|orange|emerald|teal|blue|cyan|violet|pink|indigo)-(400|500|600|700)/,
+    },
+  ],
   theme: {
     extend: {
       colors: {

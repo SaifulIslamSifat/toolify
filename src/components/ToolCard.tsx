@@ -4,7 +4,8 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Star, ArrowRight } from "lucide-react";
 import { ToolDefinition } from "@/lib/types";
-import ToolIcon, { CATEGORY_ICON_THEMES } from "./ToolIcon";
+import ToolIcon from "./ToolIcon";
+import { CATEGORY_STYLES } from "@/lib/category-styles";
 
 interface ToolCardProps {
   tool: ToolDefinition;
@@ -12,7 +13,7 @@ interface ToolCardProps {
 
 export default function ToolCard({ tool }: ToolCardProps) {
   const [isFavorite, setIsFavorite] = useState(false);
-  const theme = CATEGORY_ICON_THEMES[tool.category] || CATEGORY_ICON_THEMES.developer;
+  const theme = CATEGORY_STYLES[tool.category] || CATEGORY_STYLES.developer;
 
   useEffect(() => {
     try {
@@ -51,7 +52,7 @@ export default function ToolCard({ tool }: ToolCardProps) {
         {/* Header row: Icon & Badge + Favorite */}
         <div className="flex items-center justify-between mb-3.5">
           <div
-            className={`w-11 h-11 rounded-xl ${theme.bg} ${theme.text} border ${theme.border} flex items-center justify-center transition-all duration-200 group-hover:scale-105 ${theme.hoverBg} ${theme.hoverText} shadow-sm`}
+            className={`w-11 h-11 rounded-xl ${theme.bg} ${theme.text} border ${theme.border} flex items-center justify-center transition-all duration-200 group-hover:scale-105 ${theme.hoverBg} ${theme.hoverText || ""} shadow-sm`}
           >
             <ToolIcon icon={tool.icon} category={tool.category} className="w-5 h-5" />
           </div>

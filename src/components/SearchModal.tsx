@@ -6,7 +6,8 @@ import { useRouter } from "next/navigation";
 import { Search, X, ArrowRight, CornerDownLeft } from "lucide-react";
 import { searchTools, TOOLS } from "@/lib/tools-registry";
 import { ToolDefinition } from "@/lib/types";
-import ToolIcon, { CATEGORY_ICON_THEMES } from "./ToolIcon";
+import ToolIcon from "./ToolIcon";
+import { CATEGORY_STYLES } from "@/lib/category-styles";
 
 interface SearchModalProps {
   isOpen: boolean;
@@ -111,7 +112,7 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
           ) : (
             <div className="space-y-1">
               {results.map((tool, idx) => {
-                const theme = CATEGORY_ICON_THEMES[tool.category] || CATEGORY_ICON_THEMES.developer;
+                const theme = CATEGORY_STYLES[tool.category] || CATEGORY_STYLES.developer;
                 return (
                   <Link
                     key={tool.slug}

@@ -18,6 +18,7 @@ import { CATEGORIES, getPopularTools, getFeaturedTools, TOOLS } from "@/lib/tool
 import ToolCard from "@/components/ToolCard";
 import ToolIcon from "@/components/ToolIcon";
 import SearchModal from "@/components/SearchModal";
+import { CATEGORY_STYLES } from "@/lib/category-styles";
 
 export default function HomePage() {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
@@ -165,6 +166,12 @@ export default function HomePage() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {CATEGORIES.map((cat) => {
             const count = TOOLS.filter((t) => t.category === cat.id && t.status === "active").length;
+            const style = CATEGORY_STYLES[cat.id] || {
+              bg: "bg-brand-100 dark:bg-brand-950/70",
+              text: "text-brand-600 dark:text-brand-400",
+              border: "border-brand-200 dark:border-brand-800/70",
+              hoverBg: "group-hover:bg-brand-200 dark:group-hover:bg-brand-900/60",
+            };
             return (
               <Link
                 key={cat.id}
@@ -172,8 +179,10 @@ export default function HomePage() {
                 className="group flex flex-col p-6 rounded-2xl border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm hover:shadow-card hover:border-brand-400 dark:hover:border-brand-700 transition-all"
               >
                 <div className="flex items-center justify-between mb-4">
-                  <div className={`w-12 h-12 rounded-xl bg-gradient-to-r ${cat.gradient} flex items-center justify-center text-white shadow-md group-hover:scale-105 transition-transform`}>
-                    <ToolIcon icon={cat.icon} category={cat.id} className="w-6 h-6 text-white" />
+                  <div
+                    className={`w-12 h-12 rounded-2xl ${style.bg} ${style.text} ${style.border} border ${style.hoverBg} flex items-center justify-center shadow-sm group-hover:scale-110 transition-all duration-200`}
+                  >
+                    <ToolIcon icon={cat.icon} className={`w-6 h-6 ${style.text}`} />
                   </div>
                   <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">
                     {count} tools
