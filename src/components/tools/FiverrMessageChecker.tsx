@@ -4,146 +4,191 @@ import { useState, useMemo } from "react";
 import {
   ShieldAlert,
   ShieldCheck,
-  AlertTriangle,
   Copy,
   Check,
   Trash2,
   Sparkles,
-  ArrowRight,
-  Info,
   CheckCircle2,
+  AlertCircle,
+  HelpCircle,
 } from "lucide-react";
 import { copyToClipboard } from "@/lib/utils";
 
-interface PolicyRule {
+export interface PolicyRule {
   id: string;
-  category: "Email & Address" | "Phone & WhatsApp" | "External Payment" | "Outside Communication" | "Review Policy" | "Academic Integrity";
+  category:
+    | "Payment Terms"
+    | "Direct Contact"
+    | "Email & Messaging"
+    | "External Platforms"
+    | "Review Policy"
+    | "Academic Integrity";
   severity: "high" | "medium";
   pattern: RegExp;
   label: string;
   explanation: string;
-  suggestedReplacement: string;
+  compliantPhrase: string;
+  customSafeWord?: string;
 }
 
-const POLICY_RULES: PolicyRule[] = [
-  // Emails
+// Configurable keyword and phrase rules dictionary
+export const POLICY_RULES: PolicyRule[] = [
+  // 1. Payment Terms & Phrases
   {
-    id: "email_address",
-    category: "Email & Address",
+    id: "pay_word",
+    category: "Payment Terms",
     severity: "high",
-    pattern: /\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b/gi,
-    label: "Email Address Detected",
+    pattern: /\b(pay|payments?|paid|paying)\b/gi,
+    label: "Payment Keyword",
     explanation:
-      "Fiverr's automated filters immediately flag email addresses. Sharing personal emails can result in an account warning or temporary restriction.",
-    suggestedReplacement: "via the Fiverr attachment tool",
+      "Direct mentions of 'pay' or 'payment' trigger Fiverr's payment filter. Off-platform payment solicitation violates Fiverr TOS.",
+    compliantPhrase: "complete the order via Fiverr",
   },
   {
-    id: "email_mention",
-    category: "Email & Address",
+    id: "payment_processors",
+    category: "Payment Terms",
     severity: "high",
-    pattern: /\b(my email|send me your email|email me|e-mail me|what is your email|share your email|inbox me at)\b/gi,
-    label: "Email Request",
+    pattern:
+      /\b(paypal|pay pal|crypto|cryptocurrency|bitcoin|btc|usdt|ethereum|venmo|zelle|cashapp|cash app|wire transfer|bank transfer|western union|payoneer|wise|moneygram)\b/gi,
+    label: "External Payment Method",
     explanation:
-      "Requesting a buyer's email address triggers Fiverr's automated compliance warning.",
-    suggestedReplacement: "send the project requirements and files directly here in the Fiverr order chat",
+      "Explicit payment processor names will immediately trigger automated account flags.",
+    compliantPhrase: "a standard Fiverr Custom Offer",
   },
   {
-    id: "email_provider",
-    category: "Email & Address",
-    severity: "medium",
-    pattern: /\b(gmail|yahoo mail|outlook\.com|hotmail)\b/gi,
-    label: "Email Provider Mention",
+    id: "offplatform_payment",
+    category: "Payment Terms",
+    severity: "high",
+    pattern:
+      /\b(pay outside|pay me outside|pay directly|direct payment|pay me off-site|transfer money directly|pay cash|off-platform payment)\b/gi,
+    label: "Direct Payment Request",
     explanation:
-      "Referencing email providers often alerts automated moderation scanners to possible off-platform communication.",
-    suggestedReplacement: "the Fiverr message inbox",
+      "Asking buyers to pay directly outside Fiverr's escrow checkout leads to permanent account suspension.",
+    compliantPhrase: "process everything safely through Fiverr checkout",
   },
 
-  // Phone / WhatsApp
+  // 2. Email Mentions & Addresses
   {
-    id: "whatsapp",
-    category: "Phone & WhatsApp",
+    id: "email_word",
+    category: "Email & Messaging",
     severity: "high",
-    pattern: /\b(whatsapp|whats app|whatapp|wa\.me)\b/gi,
-    label: "WhatsApp Mention",
+    pattern: /\b(emails?|e-mails?)\b/gi,
+    label: "Email Mention",
     explanation:
-      "WhatsApp is explicitly restricted on Fiverr. Requesting or providing WhatsApp details is one of the most common causes of account suspensions.",
-    suggestedReplacement: "our Fiverr conversation",
+      "Mentioning 'email' alerts Fiverr's automated compliance monitors to potential off-platform communication.",
+    compliantPhrase: "Fiverr inbox message",
+    customSafeWord: "e-mail",
   },
   {
-    id: "phone_number",
-    category: "Phone & WhatsApp",
+    id: "email_address",
+    category: "Email & Messaging",
+    severity: "high",
+    pattern: /\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b/gi,
+    label: "Email Address",
+    explanation:
+      "Sharing raw email addresses is strictly flagged by Fiverr's automated inbox scanners.",
+    compliantPhrase: "via Fiverr order attachments",
+  },
+  {
+    id: "email_phrases",
+    category: "Email & Messaging",
+    severity: "high",
+    pattern:
+      /\b(send me your email|my email is|email me at|share your email|what is your email|inbox me at)\b/gi,
+    label: "Email Solicitation Phrase",
+    explanation:
+      "Requesting a buyer's email address is flagged as an attempt to bypass Fiverr communication.",
+    compliantPhrase: "share the project details directly here",
+  },
+  {
+    id: "email_providers",
+    category: "Email & Messaging",
+    severity: "medium",
+    pattern: /\b(gmail|yahoo mail|hotmail|outlook\.com)\b/gi,
+    label: "Email Provider Mention",
+    explanation:
+      "Referring to specific email service providers is often flagged by content moderation.",
+    compliantPhrase: "the Fiverr messaging system",
+  },
+
+  // 3. Direct Contact & Phone
+  {
+    id: "whatsapp",
+    category: "Direct Contact",
+    severity: "high",
+    pattern: /\b(whats[ -]?app|whatapp|wa\.me)\b/gi,
+    label: "WhatsApp Mention",
+    explanation:
+      "WhatsApp communication is strictly banned on Fiverr and is a top cause of instant account bans.",
+    compliantPhrase: "our Fiverr conversation",
+  },
+  {
+    id: "contact_me",
+    category: "Direct Contact",
+    severity: "high",
+    pattern:
+      /\b(contact me|contact us|reach me|reach out to me|talk outside|communicate outside|outside fiverr|off-platform|offsite)\b/gi,
+    label: "Outside Communication Phrase",
+    explanation:
+      "Asking a client to contact you outside Fiverr violates the Terms of Service.",
+    compliantPhrase: "message me directly here on Fiverr",
+  },
+  {
+    id: "phone_phrase",
+    category: "Direct Contact",
+    severity: "high",
+    pattern:
+      /\b(phone number|phone no|cell number|mobile number|call me|call on my phone|give me your number|text my number|my phone|my number)\b/gi,
+    label: "Phone Contact Request",
+    explanation:
+      "Direct phone calls and exchanging phone numbers are prohibited on Fiverr.",
+    compliantPhrase: "discuss details right here in chat",
+  },
+  {
+    id: "phone_digits",
+    category: "Direct Contact",
     severity: "high",
     pattern: /\b(\+?\d{1,3}[-.\s]?)?(\(?\d{3}\)?[-.\s]?)?\d{3}[-.\s]?\d{4}\b/gi,
     label: "Phone Number Pattern",
     explanation:
-      "Direct phone numbers trigger strict automated policy filters on Fiverr.",
-    suggestedReplacement: "Fiverr messaging",
-  },
-  {
-    id: "phone_call",
-    category: "Phone & WhatsApp",
-    severity: "high",
-    pattern: /\b(call me|phone number|call on my phone|give me your number|text my number|my phone)\b/gi,
-    label: "Phone Call Request",
-    explanation:
-      "Phone calls outside Fiverr are strictly prohibited. Voice communication is only permitted through Fiverr's official built-in Zoom order feature when required.",
-    suggestedReplacement: "discuss the project details right here in chat",
+      "Numerical telephone formats are automatically caught by pattern filters.",
+    compliantPhrase: "Fiverr messaging",
   },
 
-  // External Payment
+  // 4. External Platforms
   {
-    id: "payment_processors",
-    category: "External Payment",
+    id: "external_platforms",
+    category: "External Platforms",
     severity: "high",
-    pattern: /\b(paypal|pay pal|crypto|bitcoin|btc|usdt|ethereum|venmo|zelle|cashapp|cash app|wire transfer|bank transfer|western union|payoneer)\b/gi,
-    label: "External Payment Processor",
+    pattern:
+      /\b(skype|telegram|discord|wechat|viber|signal|google meet|teams link)\b/gi,
+    label: "External Chat App",
     explanation:
-      "Accepting or soliciting payment outside of Fiverr is a severe violation of the Terms of Service and results in immediate account banning.",
-    suggestedReplacement: "a standard Fiverr Custom Offer",
-  },
-  {
-    id: "pay_outside",
-    category: "External Payment",
-    severity: "high",
-    pattern: /\b(pay outside|pay me outside|pay directly|direct payment|pay me off-site|transfer money directly|pay cash)\b/gi,
-    label: "Off-Platform Payment Proposal",
-    explanation:
-      "All transactions must occur strictly within Fiverr's escrow checkout system to protect both buyer and seller.",
-    suggestedReplacement: "process the order securely through Fiverr's milestone checkout",
-  },
-
-  // Outside Communication
-  {
-    id: "outside_apps",
-    category: "Outside Communication",
-    severity: "high",
-    pattern: /\b(skype|telegram|discord|wechat|google meet|talk outside|contact outside|reach me at|connect outside)\b/gi,
-    label: "External Communication Platform",
-    explanation:
-      "Communicating outside Fiverr removes buyer/seller protections and violates the communication policy.",
-    suggestedReplacement: "keep all communication in this official Fiverr order workspace",
+      "Exchanging external communication channels removes order tracking and client protection.",
+    compliantPhrase: "official Fiverr order chat",
   },
   {
     id: "zoom_unapproved",
-    category: "Outside Communication",
+    category: "External Platforms",
     severity: "medium",
-    pattern: /\b(zoom link|join my zoom|schedule a zoom)\b/gi,
-    label: "Private Zoom Meeting Link",
+    pattern: /\b(zoom link|join my zoom|schedule a zoom|private zoom)\b/gi,
+    label: "Private Zoom Meeting",
     explanation:
-      "External Zoom links are prohibited. If video consultation is part of your gig scope, schedule it exclusively using Fiverr's official integrated Zoom button on the order page.",
-    suggestedReplacement: "schedule an official video consultation through our active Fiverr order page",
+      "Third-party video links are prohibited. Use Fiverr's official integrated Zoom meeting feature on the order page if video is required.",
+    compliantPhrase: "schedule an official video meeting via the Fiverr order page",
   },
 
-  // Review / Feedback Manipulation
+  // 5. Review & Rating Policy
   {
-    id: "review_rating",
+    id: "review_solicitation",
     category: "Review Policy",
     severity: "high",
-    pattern: /\b(5 star|5 stars|give me 5 stars|leave 5 star|positive review|good review|5-star rating|give a 5-star)\b/gi,
-    label: "Review / 5-Star Solicitation",
+    pattern:
+      /\b(5[- ]?stars?|five[- ]?stars?|positive review|leave 5 star|good review|5-star rating|give 5 star)\b/gi,
+    label: "Review Solicitation",
     explanation:
-      "Asking buyers specifically for a 5-star rating or positive review is strictly forbidden under Fiverr's Review Manipulation policy.",
-    suggestedReplacement: "share your honest feedback and thoughts on the delivered work",
+      "Asking specifically for 5 stars or positive ratings violates Fiverr's Feedback Manipulation policy.",
+    compliantPhrase: "share your honest feedback on the delivered work",
   },
   {
     id: "review_exchange",
@@ -152,141 +197,232 @@ const POLICY_RULES: PolicyRule[] = [
     pattern: /\b(review exchange|swap reviews|trade reviews)\b/gi,
     label: "Review Exchange",
     explanation:
-      "Review trading or artificial rating manipulation is considered fraud on Fiverr and leads to permanent profile closure.",
-    suggestedReplacement: "complete genuine client projects to earn authentic feedback",
+      "Review swapping is classified as fraudulent manipulation and results in permanent ban.",
+    compliantPhrase: "deliver authentic client work",
   },
 
-  // Academic Integrity
+  // 6. Academic Integrity
   {
     id: "academic_work",
     category: "Academic Integrity",
     severity: "high",
-    pattern: /\b(do my homework|write my thesis|take my exam|academic paper for school|solve my test)\b/gi,
-    label: "Academic Cheating Violation",
+    pattern:
+      /\b(do my homework|write my thesis|take my exam|solve my test|academic paper for school|write my essay)\b/gi,
+    label: "Academic Integrity Violation",
     explanation:
-      "Completing graded academic coursework, exams, or theses on behalf of students is strictly prohibited on Fiverr.",
-    suggestedReplacement: "provide tutoring guidance, editorial proofreading, and research assistance",
+      "Completing graded academic homework or university exams on behalf of students is prohibited.",
+    compliantPhrase: "provide editorial proofreading and tutoring guidance",
   },
 ];
 
-interface DetectedIssue {
-  ruleId: string;
+export interface DetectedIssue {
+  id: string;
   matchedText: string;
-  index: number;
-  length: number;
+  startIndex: number;
+  endIndex: number;
   category: PolicyRule["category"];
   severity: PolicyRule["severity"];
   label: string;
   explanation: string;
-  suggestedReplacement: string;
+  compliantPhrase: string;
+  safeReplacement: string;
+}
+
+/**
+ * Transforms a detected sensitive word or phrase into its safe hyphenated form,
+ * preserving exact casing (e.g. "pay" -> "p-ay", "PAY" -> "P-AY", "email" -> "e-mail").
+ */
+export function generateSafeWord(word: string, customOverride?: string): string {
+  if (customOverride) {
+    if (word === word.toUpperCase()) return customOverride.toUpperCase();
+    if (word[0] === word[0].toUpperCase() && word.slice(1) === word.slice(1).toLowerCase()) {
+      return customOverride[0].toUpperCase() + customOverride.slice(1);
+    }
+    return customOverride;
+  }
+
+  // Email address with @: example@example.com -> example [at] example [dot] com
+  if (word.includes("@")) {
+    return word.replace("@", " [at] ").replace(/\./g, " [dot] ");
+  }
+
+  // Multi-word phrase: e.g. "contact me", "outside fiverr", "phone number"
+  if (word.includes(" ")) {
+    return word
+      .split(" ")
+      .map((part) => (part.length >= 3 ? generateSafeWord(part) : part))
+      .join(" ");
+  }
+
+  // Single word: insert hyphen after the first character (e.g. pay -> p-ay, email -> e-mail, payment -> p-ayment)
+  if (word.length >= 3) {
+    if (word.includes("-")) return word;
+    return word[0] + "-" + word.slice(1);
+  }
+
+  return word;
 }
 
 export default function FiverrMessageChecker() {
   const [text, setText] = useState<string>(
-    "Hi there! Thanks for reaching out. Yes, I can do this project for you. Could you please send me your email or whatsapp number so we can talk outside? Also, I can offer a discount if you pay directly via paypal. Once completed, please make sure to give me 5 stars!"
+    "please pay in fiverr then we will talk in email."
   );
-  const [copied, setCopied] = useState<boolean>(false);
+  const [safeTextOutput, setSafeTextOutput] = useState<string>("");
+  const [copiedOriginal, setCopiedOriginal] = useState<boolean>(false);
+  const [copiedSafe, setCopiedSafe] = useState<boolean>(false);
+  const [safeGenerated, setSafeGenerated] = useState<boolean>(false);
 
-  // Scan text for issues
+  // Scan text for policy matches with robust de-duplication and boundary handling
   const detectedIssues: DetectedIssue[] = useMemo(() => {
     if (!text.trim()) return [];
-    const issues: DetectedIssue[] = [];
+    const allMatches: DetectedIssue[] = [];
 
     POLICY_RULES.forEach((rule) => {
       const regex = new RegExp(rule.pattern.source, "gi");
       let match: RegExpExecArray | null;
 
       while ((match = regex.exec(text)) !== null) {
-        issues.push({
-          ruleId: rule.id,
-          matchedText: match[0],
-          index: match.index,
-          length: match[0].length,
+        const rawMatched = match[0];
+        allMatches.push({
+          id: rule.id,
+          matchedText: rawMatched,
+          startIndex: match.index,
+          endIndex: match.index + rawMatched.length,
           category: rule.category,
           severity: rule.severity,
           label: rule.label,
           explanation: rule.explanation,
-          suggestedReplacement: rule.suggestedReplacement,
+          compliantPhrase: rule.compliantPhrase,
+          safeReplacement: generateSafeWord(rawMatched, rule.customSafeWord),
         });
       }
     });
 
-    // Sort by position in text
-    return issues.sort((a, b) => a.index - b.index);
+    // Sort by starting index, then longest match first to avoid nested collision
+    allMatches.sort((a, b) => {
+      if (a.startIndex !== b.startIndex) return a.startIndex - b.startIndex;
+      return (b.endIndex - b.startIndex) - (a.endIndex - a.startIndex);
+    });
+
+    // Remove overlapping matches cleanly
+    const nonOverlapping: DetectedIssue[] = [];
+    for (const item of allMatches) {
+      const hasOverlap = nonOverlapping.some(
+        (existing) =>
+          item.startIndex < existing.endIndex && item.endIndex > existing.startIndex
+      );
+      if (!hasOverlap) {
+        nonOverlapping.push(item);
+      }
+    }
+
+    return nonOverlapping.sort((a, b) => a.startIndex - b.startIndex);
   }, [text]);
 
-  // Statistics
+  // Compute the safe text string based on current text and detected issues
+  const computedSafeText = useMemo(() => {
+    if (!text) return "";
+    if (detectedIssues.length === 0) return text;
+
+    let result = text;
+    // Replace backwards so earlier indices remain strictly valid
+    const descending = [...detectedIssues].sort((a, b) => b.startIndex - a.startIndex);
+    descending.forEach((issue) => {
+      result =
+        result.slice(0, issue.startIndex) +
+        issue.safeReplacement +
+        result.slice(issue.endIndex);
+    });
+    return result;
+  }, [text, detectedIssues]);
+
+  // Handler for the prominent "Safe Text" button
+  const handleGenerateSafeText = () => {
+    setSafeTextOutput(computedSafeText);
+    setSafeGenerated(true);
+  };
+
+  // Copy Original Message
+  const handleCopyOriginal = async () => {
+    if (!text) return;
+    const ok = await copyToClipboard(text);
+    if (ok) {
+      setCopiedOriginal(true);
+      setTimeout(() => setCopiedOriginal(false), 2000);
+    }
+  };
+
+  // Copy Safe Text
+  const handleCopySafeText = async () => {
+    const textToCopy = safeTextOutput || computedSafeText;
+    if (!textToCopy) return;
+    const ok = await copyToClipboard(textToCopy);
+    if (ok) {
+      setCopiedSafe(true);
+      setTimeout(() => setCopiedSafe(false), 2000);
+    }
+  };
+
+  // Clear all text and outputs
+  const handleClear = () => {
+    setText("");
+    setSafeTextOutput("");
+    setSafeGenerated(false);
+  };
+
+  // Quick preset loader for testing and user guidance
+  const loadExample = (exampleText: string) => {
+    setText(exampleText);
+    setSafeTextOutput("");
+    setSafeGenerated(false);
+  };
+
+  // Text statistics
   const trimmed = text.trim();
   const wordCount = trimmed ? trimmed.split(/\s+/).length : 0;
   const charCount = text.length;
 
-  // Replace single issue with its suggested compliant wording
-  const replaceIssue = (issue: DetectedIssue) => {
-    const before = text.slice(0, issue.index);
-    const after = text.slice(issue.index + issue.length);
-    setText(before + issue.suggestedReplacement + after);
-  };
-
-  // Replace all detected issues with their compliant replacements
-  const applyAllReplacements = () => {
-    let updated = text;
-    // Process backwards so indices remain valid
-    const sortedDescending = [...detectedIssues].sort((a, b) => b.index - a.index);
-    sortedDescending.forEach((issue) => {
-      const before = updated.slice(0, issue.index);
-      const after = updated.slice(issue.index + issue.length);
-      updated = before + issue.suggestedReplacement + after;
-    });
-    setText(updated);
-  };
-
-  const handleCopy = async () => {
-    const success = await copyToClipboard(text);
-    if (success) {
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    }
-  };
-
-  const handleClear = () => {
-    setText("");
-  };
-
-  // Visual text preview with highlighted terms
+  // Visual highlight preview
   const renderHighlightedPreview = () => {
     if (!text) {
       return (
         <span className="text-slate-400 italic">
-          Type or paste your message above to see a real-time compliance scan...
+          Type or paste a message above to inspect flagged terms...
         </span>
       );
     }
 
     if (detectedIssues.length === 0) {
-      return <span className="text-slate-700 dark:text-slate-300">{text}</span>;
+      return (
+        <span className="text-slate-700 dark:text-slate-300 whitespace-pre-wrap">
+          {text}
+        </span>
+      );
     }
 
     const segments: React.ReactNode[] = [];
     let lastIndex = 0;
 
     detectedIssues.forEach((issue, idx) => {
-      if (issue.index > lastIndex) {
+      if (issue.startIndex > lastIndex) {
         segments.push(
-          <span key={`clean-${idx}`}>{text.slice(lastIndex, issue.index)}</span>
+          <span key={`clean-${idx}`}>
+            {text.slice(lastIndex, issue.startIndex)}
+          </span>
         );
       }
 
       segments.push(
         <mark
           key={`issue-${idx}`}
-          title={`${issue.label}: ${issue.explanation}`}
-          className="bg-rose-100 dark:bg-rose-950/80 text-rose-700 dark:text-rose-300 border-b-2 border-rose-500 font-bold px-1 py-0.5 rounded cursor-help"
+          title={`${issue.label}: ${issue.explanation} → Safe: ${issue.safeReplacement}`}
+          className="bg-amber-100 dark:bg-amber-950/80 text-amber-900 dark:text-amber-200 border-b-2 border-rose-500 font-semibold px-1 py-0.5 rounded cursor-help"
         >
-          {text.slice(issue.index, issue.index + issue.length)}
+          {text.slice(issue.startIndex, issue.endIndex)}
         </mark>
       );
 
-      lastIndex = issue.index + issue.length;
+      lastIndex = issue.endIndex;
     });
 
     if (lastIndex < text.length) {
@@ -302,180 +438,282 @@ export default function FiverrMessageChecker() {
       <div
         className={`p-5 rounded-2xl border flex flex-col sm:flex-row sm:items-center justify-between gap-4 transition-all ${
           detectedIssues.length === 0
-            ? "border-emerald-200 bg-emerald-50/60 dark:border-emerald-900/60 dark:bg-emerald-950/30 text-emerald-900 dark:text-emerald-200"
-            : "border-rose-200 bg-rose-50/60 dark:border-rose-900/60 dark:bg-rose-950/30 text-rose-900 dark:text-rose-200"
+            ? "border-emerald-200 bg-emerald-50/70 dark:border-emerald-900/60 dark:bg-emerald-950/30 text-emerald-950 dark:text-emerald-200"
+            : "border-amber-200 bg-amber-50/70 dark:border-amber-900/60 dark:bg-amber-950/30 text-amber-950 dark:text-amber-200"
         }`}
       >
         <div className="flex items-center gap-3">
           {detectedIssues.length === 0 ? (
-            <div className="w-10 h-10 rounded-xl bg-emerald-500 text-white flex items-center justify-center flex-shrink-0 shadow-sm">
+            <div className="w-11 h-11 rounded-xl bg-emerald-500 text-white flex items-center justify-center flex-shrink-0 shadow-sm">
               <ShieldCheck className="w-6 h-6" />
             </div>
           ) : (
-            <div className="w-10 h-10 rounded-xl bg-rose-500 text-white flex items-center justify-center flex-shrink-0 shadow-sm">
+            <div className="w-11 h-11 rounded-xl bg-rose-500 text-white flex items-center justify-center flex-shrink-0 shadow-sm">
               <ShieldAlert className="w-6 h-6" />
             </div>
           )}
           <div>
-            <h3 className="text-base font-extrabold">
+            <h3 className="text-base font-extrabold flex items-center gap-2">
               {detectedIssues.length === 0
-                ? "Safe & Policy-Compliant Message"
-                : `${detectedIssues.length} Potential Policy ${
-                    detectedIssues.length === 1 ? "Issue" : "Issues"
+                ? "No Problematic Terms Detected"
+                : `${detectedIssues.length} Potentially Problematic ${
+                    detectedIssues.length === 1 ? "Term" : "Terms"
                   } Detected`}
             </h3>
             <p className="text-xs opacity-90 mt-0.5">
               {detectedIssues.length === 0
-                ? "No sensitive external contact, payment, or TOS-restricted phrases detected. Ready to send!"
-                : "Your message contains phrases that may trigger automated moderation flags or account warnings."}
+                ? "Your message does not trigger any of the restricted payment, external contact, or policy rules."
+                : "The terms highlighted below may trigger Fiverr's automated compliance warnings or moderation review."}
             </p>
           </div>
         </div>
 
+        {/* Prominent Safe Text button in the banner */}
         {detectedIssues.length > 0 && (
           <button
-            onClick={applyAllReplacements}
-            className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-rose-600 hover:bg-rose-700 text-white font-bold text-xs shadow-sm flex-shrink-0 transition-all"
+            onClick={handleGenerateSafeText}
+            className="flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-md transition-all flex-shrink-0"
           >
-            <Sparkles className="w-3.5 h-3.5" />
-            <span>Apply All Safe Fixes</span>
+            <Sparkles className="w-4 h-4" />
+            <span>Generate Safe Text</span>
           </button>
         )}
       </div>
 
-      {/* Editor & Scan Grid */}
+      {/* Quick Test Presets */}
+      <div className="space-y-2">
+        <div className="flex items-center justify-between">
+          <span className="text-xs font-bold text-slate-500 uppercase tracking-wider flex items-center gap-1.5">
+            <HelpCircle className="w-3.5 h-3.5" /> Quick Test Examples
+          </span>
+          <span className="text-[11px] text-slate-400">Click to test instant scan</span>
+        </div>
+        <div className="flex flex-wrap gap-2">
+          {[
+            "please pay in fiverr then we will talk in email.",
+            "PAY through Fiverr.",
+            "Please contact me on WhatsApp.",
+            "My EMAIL address is example@example.com.",
+            "I will send the payment through Fiverr.",
+          ].map((example, i) => (
+            <button
+              key={i}
+              onClick={() => loadExample(example)}
+              className="text-xs px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-400 hover:text-brand-600 hover:border-brand-300 transition-colors truncate max-w-[280px]"
+              title={example}
+            >
+              Ex {i + 1}: &quot;{example}&quot;
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Main Grid: Input / Original vs Safe Text Output */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
-        {/* Left Column: Message Input Area */}
+        {/* Left Column: Original Message Input */}
         <div className="space-y-4">
           <div className="flex items-center justify-between">
-            <label className="text-xs font-bold text-slate-700 dark:text-slate-300">
-              Draft Fiverr Client Message
+            <label className="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 flex items-center gap-2">
+              <span>Original Message</span>
+              {detectedIssues.length > 0 && (
+                <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-rose-100 dark:bg-rose-950/80 text-rose-700 dark:text-rose-300">
+                  {detectedIssues.length} Matches
+                </span>
+              )}
             </label>
             <div className="flex items-center gap-3 text-xs text-slate-500 font-mono">
               <span>{wordCount} words</span>
               <span>•</span>
-              <span>{charCount} characters</span>
+              <span>{charCount} chars</span>
             </div>
           </div>
 
           <div className="relative">
             <textarea
-              rows={11}
+              rows={9}
               value={text}
-              onChange={(e) => setText(e.target.value)}
+              onChange={(e) => {
+                setText(e.target.value);
+                setSafeGenerated(false);
+              }}
               placeholder="Paste or write your Fiverr message here..."
               className="w-full p-4 rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white text-sm leading-relaxed focus:outline-none focus:border-brand-500 shadow-inner resize-y font-sans"
             />
           </div>
 
-          {/* Action buttons */}
-          <div className="flex flex-wrap items-center justify-between gap-3 pt-2">
-            <button
-              onClick={handleClear}
-              disabled={!text}
-              className="flex items-center gap-1.5 px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 hover:text-rose-500 disabled:opacity-40 text-xs font-bold transition-colors"
-            >
-              <Trash2 className="w-3.5 h-3.5" />
-              <span>Clear Text</span>
-            </button>
+          {/* Action Toolbar for Original Message */}
+          <div className="flex flex-wrap items-center justify-between gap-3 pt-1">
+            <div className="flex items-center gap-2">
+              <button
+                onClick={handleClear}
+                disabled={!text}
+                className="flex items-center gap-1.5 px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 hover:text-rose-500 disabled:opacity-40 text-xs font-bold transition-colors"
+              >
+                <Trash2 className="w-3.5 h-3.5" />
+                <span>Clear</span>
+              </button>
 
+              <button
+                onClick={handleCopyOriginal}
+                disabled={!text}
+                className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:border-slate-400 disabled:opacity-40 text-xs font-bold transition-colors"
+              >
+                {copiedOriginal ? (
+                  <>
+                    <Check className="w-3.5 h-3.5 text-emerald-500" />
+                    <span>Copied!</span>
+                  </>
+                ) : (
+                  <>
+                    <Copy className="w-3.5 h-3.5" />
+                    <span>Copy Original</span>
+                  </>
+                )}
+              </button>
+            </div>
+
+            {/* Prominent Safe Text button */}
             <button
-              onClick={handleCopy}
+              onClick={handleGenerateSafeText}
               disabled={!text}
-              className="flex items-center gap-1.5 px-5 py-2.5 rounded-xl bg-brand-600 hover:bg-brand-700 disabled:opacity-40 text-white font-bold text-xs shadow-md transition-all"
+              className="flex items-center gap-2 px-5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 disabled:opacity-40 text-white font-extrabold text-xs shadow-md transition-all"
             >
-              {copied ? (
-                <>
-                  <Check className="w-4 h-4 text-emerald-400" />
-                  <span>Copied Message!</span>
-                </>
-              ) : (
-                <>
-                  <Copy className="w-4 h-4" />
-                  <span>Copy Message</span>
-                </>
-              )}
+              <Sparkles className="w-4 h-4" />
+              <span>Safe Text</span>
             </button>
           </div>
 
-          {/* Live Highlighted Preview */}
-          <div className="p-4 rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/20">
-            <span className="text-[10px] uppercase font-bold text-slate-400 tracking-wider block mb-2">
-              Visual Flag Inspection
-            </span>
-            <div className="text-xs sm:text-sm leading-relaxed whitespace-pre-wrap max-h-48 overflow-y-auto">
+          {/* Visual Highlight Inspection Area */}
+          <div className="p-4 rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50/60 dark:bg-slate-800/20 space-y-2">
+            <div className="flex items-center justify-between">
+              <span className="text-[10px] uppercase font-bold text-slate-500 dark:text-slate-400 tracking-wider">
+                Visual Highlight of Detected Terms
+              </span>
+              <span className="text-[10px] text-slate-400">
+                {detectedIssues.length === 0
+                  ? "Clean text"
+                  : "Orange/Red marks = policy risks"}
+              </span>
+            </div>
+            <div className="text-xs sm:text-sm leading-relaxed max-h-40 overflow-y-auto font-sans p-2 rounded-lg bg-white/70 dark:bg-slate-900/60 border border-slate-100 dark:border-slate-800">
               {renderHighlightedPreview()}
             </div>
           </div>
         </div>
 
-        {/* Right Column: Detected Issues & Safe Recommendations */}
+        {/* Right Column: Suggested Safe Text & Output */}
         <div className="space-y-4">
           <div className="flex items-center justify-between">
-            <h4 className="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">
-              Policy Analysis & Suggested Alternatives
-            </h4>
-            <span className="text-xs font-bold px-2.5 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">
-              {detectedIssues.length} Flags
+            <label className="text-xs font-bold uppercase tracking-wider text-emerald-700 dark:text-emerald-400 flex items-center gap-2">
+              <Sparkles className="w-3.5 h-3.5" />
+              <span>Suggested Safe Text</span>
+            </label>
+            <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-emerald-100 dark:bg-emerald-950/80 text-emerald-700 dark:text-emerald-300">
+              {safeGenerated || safeTextOutput ? "Safe Revision Ready" : "Click Safe Text"}
             </span>
           </div>
 
-          {detectedIssues.length === 0 ? (
-            <div className="p-8 rounded-2xl border border-emerald-200/80 dark:border-emerald-900/60 bg-emerald-50/30 dark:bg-emerald-950/10 text-center space-y-3">
-              <CheckCircle2 className="w-10 h-10 text-emerald-500 mx-auto" />
-              <h5 className="text-sm font-bold text-emerald-900 dark:text-emerald-200">
-                100% Policy-Safe Content
-              </h5>
-              <p className="text-xs text-emerald-700 dark:text-emerald-300/80 max-w-sm mx-auto leading-relaxed">
-                No off-platform contact attempts, prohibited payment processors, or review solicitations found. You can
-                send this safely to your client!
-              </p>
-            </div>
-          ) : (
-            <div className="space-y-3 max-h-[560px] overflow-y-auto pr-1">
-              {detectedIssues.map((issue, idx) => (
-                <div
-                  key={`${issue.ruleId}-${idx}`}
-                  className="p-4 rounded-2xl border border-rose-200/90 dark:border-rose-900/80 bg-white dark:bg-slate-900 shadow-sm space-y-3 hover:border-rose-300 transition-colors"
-                >
-                  <div className="flex items-center justify-between">
-                    <span className="px-2 py-0.5 rounded-md text-[10px] font-bold uppercase tracking-wider bg-rose-100 dark:bg-rose-950/80 text-rose-700 dark:text-rose-300">
-                      {issue.category}
-                    </span>
-                    <span className="text-[11px] font-mono text-slate-400">Position: {issue.index}</span>
-                  </div>
+          {/* Safe Text Output Box */}
+          <div className="relative">
+            <textarea
+              rows={9}
+              readOnly
+              value={safeTextOutput || (safeGenerated ? computedSafeText : "")}
+              placeholder="Click the 'Safe Text' button to generate a revised message with safe wording..."
+              className="w-full p-4 rounded-2xl border-2 border-emerald-300 dark:border-emerald-800/80 bg-emerald-50/20 dark:bg-emerald-950/10 text-slate-900 dark:text-white text-sm leading-relaxed focus:outline-none shadow-inner resize-y font-sans font-medium"
+            />
+          </div>
 
-                  <div>
-                    <span className="text-xs text-slate-500 font-medium">Flagged Phrase:</span>
-                    <div className="font-mono text-xs font-bold text-rose-600 dark:text-rose-400 bg-rose-50/80 dark:bg-rose-950/40 p-2 rounded-lg mt-0.5 break-all">
-                      &quot;{issue.matchedText}&quot;
+          {/* Safe Text Actions */}
+          <div className="flex items-center justify-between pt-1">
+            <span className="text-xs text-slate-500">
+              Problematic words rewritten with safe separators (e.g. <code>pay</code> &rarr; <code>p-ay</code>, <code>email</code> &rarr; <code>e-mail</code>)
+            </span>
+
+            <button
+              onClick={handleCopySafeText}
+              disabled={!(safeTextOutput || (safeGenerated && computedSafeText))}
+              className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 disabled:opacity-40 text-white font-extrabold text-xs shadow-md transition-all flex-shrink-0"
+            >
+              {copiedSafe ? (
+                <>
+                  <Check className="w-4 h-4 text-emerald-200" />
+                  <span>Copied Safe Text!</span>
+                </>
+              ) : (
+                <>
+                  <Copy className="w-4 h-4" />
+                  <span>Copy Safe Text</span>
+                </>
+              )}
+            </button>
+          </div>
+
+          {/* List of Detected Terms */}
+          <div className="space-y-3 pt-2">
+            <div className="flex items-center justify-between">
+              <h4 className="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">
+                Detected Terms & Revisions
+              </h4>
+              <span className="text-xs font-mono text-slate-400">
+                {detectedIssues.length} found
+              </span>
+            </div>
+
+            {detectedIssues.length === 0 ? (
+              <div className="p-5 rounded-2xl border border-emerald-200/80 dark:border-emerald-900/60 bg-emerald-50/40 dark:bg-emerald-950/10 text-center space-y-1">
+                <CheckCircle2 className="w-8 h-8 text-emerald-500 mx-auto mb-1" />
+                <p className="text-xs font-bold text-emerald-900 dark:text-emerald-200">
+                  All clear! No policy-sensitive terms found.
+                </p>
+                <p className="text-[11px] text-emerald-700 dark:text-emerald-400">
+                  The current message does not contain flagged payment or off-platform communication terms.
+                </p>
+              </div>
+            ) : (
+              <div className="space-y-2.5 max-h-64 overflow-y-auto pr-1">
+                {detectedIssues.map((issue, idx) => (
+                  <div
+                    key={`${issue.id}-${idx}`}
+                    className="p-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 text-xs"
+                  >
+                    <div className="space-y-1">
+                      <div className="flex items-center gap-2">
+                        <span className="font-mono font-bold px-2 py-0.5 rounded bg-rose-100 dark:bg-rose-950/80 text-rose-700 dark:text-rose-300">
+                          {issue.matchedText}
+                        </span>
+                        <span className="text-[10px] text-slate-400 font-mono">
+                          pos: {issue.startIndex}
+                        </span>
+                        <span className="text-[10px] px-1.5 py-0.2 rounded bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400">
+                          {issue.category}
+                        </span>
+                      </div>
+                      <p className="text-[11px] text-slate-500 leading-tight">
+                        {issue.explanation}
+                      </p>
+                    </div>
+
+                    <div className="flex items-center gap-2 flex-shrink-0 self-end sm:self-center">
+                      <span className="text-[10px] font-bold uppercase text-slate-400">Safe:</span>
+                      <span className="font-mono font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/50 px-2 py-0.5 rounded border border-emerald-200 dark:border-emerald-800">
+                        {issue.safeReplacement}
+                      </span>
                     </div>
                   </div>
-
-                  <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
-                    {issue.explanation}
-                  </p>
-
-                  <div className="p-3 rounded-xl bg-emerald-50/60 dark:bg-emerald-950/30 border border-emerald-100 dark:border-emerald-900/40 space-y-2">
-                    <span className="text-[11px] font-bold text-emerald-800 dark:text-emerald-300 flex items-center gap-1">
-                      <Sparkles className="w-3.5 h-3.5" /> Compliant Alternative:
-                    </span>
-                    <p className="text-xs text-emerald-900 dark:text-emerald-100 italic">
-                      &quot;{issue.suggestedReplacement}&quot;
-                    </p>
-                    <button
-                      onClick={() => replaceIssue(issue)}
-                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-[11px] shadow-sm transition-all"
-                    >
-                      <Check className="w-3 h-3" />
-                      <span>Use This Alternative</span>
-                    </button>
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
+                ))}
+              </div>
+            )}
+          </div>
         </div>
+      </div>
+
+      {/* Mandatory Disclaimer */}
+      <div className="p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/40 flex items-start gap-3">
+        <AlertCircle className="w-4 h-4 text-slate-500 mt-0.5 flex-shrink-0" />
+        <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+          <strong>Disclaimer:</strong> This tool provides guidance only. It does not guarantee Fiverr approval or replace Fiverr&apos;s official policies.
+        </p>
       </div>
     </div>
   );
