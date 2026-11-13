@@ -6,7 +6,7 @@ import { Sparkles } from "lucide-react";
 const TAGLINES = [
   { prefix: "Privacy First", text: "100% Client-Side In-Browser Processing" },
   { prefix: "High Speed", text: "Zero Queue Times & Real WebAssembly Execution" },
-  { prefix: "Crafted with Precision", text: "Engineered by Saiful Islam • Full-Stack Developer" },
+  { prefix: "Crafted with Precision", text: "Engineered by Saiful Islam Sifat" },
   { prefix: "All-in-One Suite", text: "Image, PDF, Developer, Generator & Fiverr Utilities" },
   { prefix: "Zero Fluff", text: "No Mandatory Accounts, Subscriptions, or Hidden Fees" },
 ];
