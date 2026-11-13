@@ -46,6 +46,7 @@ import IpChecker from "@/components/tools/IpChecker";
 import WebsiteStatusChecker from "@/components/tools/WebsiteStatusChecker";
 import FiverrMessageChecker from "@/components/tools/FiverrMessageChecker";
 import FiverrDeliverableFormatter from "@/components/tools/FiverrDeliverableFormatter";
+import BarcodeGenerator from "@/components/tools/BarcodeGenerator";
 
 interface ToolPageProps {
   params: {
@@ -133,6 +134,8 @@ export default function ToolPage({ params }: ToolPageProps) {
         return <PasswordGenerator />;
       case "qr-code-generator":
         return <QrCodeGenerator />;
+      case "barcode-generator":
+        return <BarcodeGenerator />;
       case "uuid-generator":
         return <UuidGenerator />;
       case "base64-encoder-decoder":
