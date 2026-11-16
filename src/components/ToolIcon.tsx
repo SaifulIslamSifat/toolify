@@ -51,6 +51,8 @@ import {
   Crop,
   FilePlus,
   Barcode,
+  Gauge,
+  LineChart,
   LucideProps,
 } from "lucide-react";
 import { ToolCategory } from "@/lib/types";
@@ -93,6 +95,8 @@ export const ICON_MAP: Record<string, React.ComponentType<LucideProps>> = {
   Key: Key,
   QrCode: QrCode,
   Barcode: Barcode,
+  Gauge: Gauge,
+  LineChart: LineChart,
   Fingerprint: Fingerprint,
   Binary: Binary,
   Hash: Hash,

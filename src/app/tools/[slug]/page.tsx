@@ -47,6 +47,7 @@ import WebsiteStatusChecker from "@/components/tools/WebsiteStatusChecker";
 import FiverrMessageChecker from "@/components/tools/FiverrMessageChecker";
 import FiverrDeliverableFormatter from "@/components/tools/FiverrDeliverableFormatter";
 import BarcodeGenerator from "@/components/tools/BarcodeGenerator";
+import SeoPerformanceChecker from "@/components/tools/SeoPerformanceChecker";
 
 interface ToolPageProps {
   params: {
@@ -188,6 +189,8 @@ export default function ToolPage({ params }: ToolPageProps) {
         return <RobotsTxtGenerator />;
       case "meta-tag-generator":
         return <MetaTagGenerator />;
+      case "seo-performance-checker":
+        return <SeoPerformanceChecker />;
       case "my-ip-address":
         return <IpChecker />;
       case "website-status-checker":

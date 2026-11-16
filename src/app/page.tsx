@@ -103,6 +103,12 @@ export default function HomePage() {
               <div className="flex items-center justify-center lg:justify-start gap-2 flex-wrap text-xs text-slate-500 dark:text-slate-400">
                 <span className="font-medium text-slate-400">Quick shortcuts:</span>
                 <Link
+                  href="/tools/seo-performance-checker"
+                  className="px-2.5 py-1 rounded-lg bg-brand-50 dark:bg-brand-950/60 border border-brand-200 dark:border-brand-800 text-brand-600 dark:text-brand-400 hover:border-brand-400 font-medium transition-colors shadow-sm"
+                >
+                  SEO Audit
+                </Link>
+                <Link
                   href="/tools/image-compressor"
                   className="px-2.5 py-1 rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-brand-400 hover:text-brand-600 dark:hover:text-brand-400 transition-colors shadow-sm"
                 >
