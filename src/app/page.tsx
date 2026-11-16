@@ -135,12 +135,19 @@ export default function HomePage() {
               </div>
             </div>
 
-            {/* Right Interactive 3D Sphere Column */}
-            <div className="flex-shrink-0 flex flex-col items-center justify-center relative py-2">
-              <Interactive3DSphere />
-              <div className="mt-2 inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-100/80 dark:bg-slate-900/80 border border-slate-200/80 dark:border-slate-800 text-[11px] font-mono text-slate-500 dark:text-slate-400 shadow-sm backdrop-blur-sm">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-                <span>Interactive 3D • Reacts to Cursor</span>
+            {/* Right Interactive 3D Sphere Showcase Card */}
+            <div className="flex-shrink-0 flex flex-col items-center justify-center relative w-full lg:w-auto">
+              <div className="relative p-5 sm:p-6 rounded-3xl border border-slate-200/90 dark:border-slate-800 bg-white/80 dark:bg-slate-900/70 shadow-elevated backdrop-blur-xl flex flex-col items-center justify-center overflow-hidden transition-all duration-300 hover:shadow-glow group">
+                {/* Soft ambient corner glows inside the card */}
+                <div className="absolute -top-10 -right-10 w-28 h-28 rounded-full bg-brand-500/10 dark:bg-brand-500/20 blur-2xl pointer-events-none" />
+                <div className="absolute -bottom-10 -left-10 w-28 h-28 rounded-full bg-indigo-500/10 dark:bg-cyan-500/20 blur-2xl pointer-events-none" />
+
+                <Interactive3DSphere />
+
+                <div className="mt-3 inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-slate-50 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/60 text-[11px] font-mono text-slate-600 dark:text-slate-400 shadow-sm">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                  <span>Interactive 3D • Reacts to Cursor</span>
+                </div>
               </div>
             </div>
           </div>
