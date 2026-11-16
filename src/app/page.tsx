@@ -93,9 +93,6 @@ export default function HomePage() {
                   <span className="text-sm sm:text-base text-slate-400 dark:text-slate-500 flex-1 text-left">
                     Search any tool (e.g., &quot;compress image&quot;, &quot;merge pdf&quot;, &quot;qr code&quot;)...
                   </span>
-                  <kbd className="hidden sm:inline-flex px-2 py-1 text-xs font-semibold bg-slate-100 dark:bg-slate-800 text-slate-500 rounded-lg">
-                    Ctrl K
-                  </kbd>
                 </div>
               </div>
 

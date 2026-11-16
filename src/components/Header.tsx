@@ -110,9 +110,6 @@ export default function Header() {
             >
               <Search className="w-3.5 h-3.5" />
               <span className="hidden sm:inline">Search tools...</span>
-              <kbd className="hidden sm:inline-flex px-1.5 py-0.5 text-[10px] font-semibold bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded text-slate-400">
-                Ctrl K
-              </kbd>
             </button>
 
             <ThemeToggle />

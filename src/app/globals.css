@@ -75,6 +75,20 @@ button, a, input, select, textarea {
   animation: gradientShimmer 6s ease infinite;
 }
 
+/* Subtle glowing border traveling dot animation */
+@keyframes borderDotTravel {
+  0% {
+    stroke-dashoffset: 0;
+  }
+  100% {
+    stroke-dashoffset: -100;
+  }
+}
+
+.animate-border-dot {
+  animation: borderDotTravel 6s linear infinite;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *, ::before, ::after {
     animation-duration: 0.01ms !important;
