@@ -83,15 +83,15 @@ export default function HomePage() {
                 Powerful, simple and free online utilities crafted with genuine functionality. Process images, PDFs, text, and calculations securely inside your browser.
               </p>
 
-              {/* Search Bar */}
-              <div className="max-w-xl mx-auto lg:mx-0 mb-6">
+              {/* Search Bar - Broader & Prominent */}
+              <div className="max-w-2xl mx-auto lg:mx-0 mb-6">
                 <div
                   onClick={() => setIsSearchOpen(true)}
-                  className="flex items-center gap-3 w-full px-5 py-4 rounded-2xl border-2 border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-elevated hover:border-brand-500 dark:hover:border-brand-500 cursor-pointer transition-all group"
+                  className="flex items-center gap-3.5 w-full px-6 py-4.5 sm:py-5 rounded-2xl border-2 border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-elevated hover:border-brand-500 dark:hover:border-brand-500 hover:shadow-glow cursor-pointer transition-all group"
                 >
-                  <Search className="w-5 h-5 text-slate-400 group-hover:text-brand-600 transition-colors" />
-                  <span className="text-sm sm:text-base text-slate-400 dark:text-slate-500 flex-1 text-left">
-                    Search any tool (e.g., &quot;compress image&quot;, &quot;merge pdf&quot;, &quot;qr code&quot;)...
+                  <Search className="w-5.5 h-5.5 text-slate-400 group-hover:text-brand-600 transition-colors flex-shrink-0" />
+                  <span className="text-base sm:text-lg text-slate-400 dark:text-slate-500 flex-1 text-left">
+                    Search any tool (e.g., &quot;compress image&quot;, &quot;merge pdf&quot;, &quot;seo audit&quot;)...
                   </span>
                 </div>
               </div>

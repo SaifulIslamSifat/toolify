@@ -65,12 +65,12 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
       className="fixed inset-0 z-50 flex items-start justify-center pt-16 sm:pt-24 px-4 bg-slate-900/60 backdrop-blur-sm animate-in fade-in duration-150 cursor-pointer"
     >
       <div
-        className="w-full max-w-2xl overflow-hidden rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-2xl transition-all cursor-default"
+        className="w-full max-w-3xl overflow-hidden rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-2xl transition-all cursor-default"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Search Input Bar */}
-        <div className="relative flex items-center px-4 py-3.5 border-b border-slate-200 dark:border-slate-800">
-          <Search className="w-5 h-5 text-slate-400 mr-3 flex-shrink-0" />
+        <div className="relative flex items-center px-5 py-4 border-b border-slate-200 dark:border-slate-800">
+          <Search className="w-5.5 h-5.5 text-slate-400 mr-3.5 flex-shrink-0" />
           <input
             ref={inputRef}
             type="text"
