@@ -41,7 +41,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#4f46e5",
+  themeColor: "#000000",
   width: "device-width",
   initialScale: 1,
 };
@@ -52,8 +52,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body className="flex flex-col min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 antialiased selection:bg-brand-500 selection:text-white relative">
+    <html lang="en" className="dark" suppressHydrationWarning>
+      <body className="flex flex-col min-h-screen bg-white dark:bg-black text-slate-900 dark:text-[#f4f5f2] antialiased selection:bg-brand-400 selection:text-black relative">
         <ParticleBackground />
         <CustomCursor />
         <Header />

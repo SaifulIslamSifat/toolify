@@ -17,12 +17,12 @@ export default function Header() {
 
   return (
     <>
-      <header className="sticky top-0 z-40 w-full border-b border-slate-200/80 dark:border-slate-800/80 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md transition-colors">
+      <header className="sticky top-0 z-40 w-full border-b border-slate-200/80 dark:border-white/10 bg-white/80 dark:bg-black/90 backdrop-blur-md transition-colors">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2.5 group flex-shrink-0">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-600 to-indigo-500 flex items-center justify-center text-white shadow-md shadow-brand-500/20 group-hover:scale-105 transition-transform">
-              <Wrench className="w-5 h-5 text-white" />
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-500 to-emerald-400 dark:from-brand-400 dark:to-emerald-400 flex items-center justify-center text-black shadow-md shadow-brand-500/20 group-hover:scale-105 transition-transform">
+              <Wrench className="w-5 h-5 text-black" />
             </div>
             <div className="flex flex-col">
               <span className="text-xl font-black tracking-tight text-slate-900 dark:text-white flex items-center gap-1">
@@ -40,8 +40,8 @@ export default function Header() {
               href="/"
               className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
                 pathname === "/"
-                  ? "text-brand-600 dark:text-brand-400 bg-brand-50/60 dark:bg-brand-950/40"
-                  : "text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-slate-800/50"
+                  ? "text-brand-600 dark:text-brand-400 bg-brand-50/60 dark:bg-brand-400/10"
+                  : "text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-white/5"
               }`}
             >
               Home
@@ -50,8 +50,8 @@ export default function Header() {
               href="/tools"
               className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
                 pathname === "/tools"
-                  ? "text-brand-600 dark:text-brand-400 bg-brand-50/60 dark:bg-brand-950/40"
-                  : "text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-slate-800/50"
+                  ? "text-brand-600 dark:text-brand-400 bg-brand-50/60 dark:bg-brand-400/10"
+                  : "text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-white/5"
               }`}
             >
               All Tools
@@ -64,7 +64,7 @@ export default function Header() {
               onMouseLeave={() => setIsCategoryOpen(false)}
             >
               <button
-                className="flex items-center gap-1 px-3 py-1.5 rounded-lg text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors"
+                className="flex items-center gap-1 px-3 py-1.5 rounded-lg text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-white/5 transition-colors"
                 onClick={() => setIsCategoryOpen(!isCategoryOpen)}
               >
                 Categories
@@ -73,15 +73,15 @@ export default function Header() {
 
               {isCategoryOpen && (
                 <div className="absolute top-full left-0 w-72 pt-2 animate-in fade-in slide-in-from-top-1 duration-150">
-                  <div className="rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xl p-2 space-y-0.5">
+                  <div className="rounded-2xl bg-white dark:bg-[#090d0f] border border-slate-200 dark:border-white/10 shadow-xl p-2 space-y-0.5">
                     {CATEGORIES.map((cat) => (
                       <Link
                         key={cat.id}
                         href={`/category/${cat.slug}`}
                         onClick={() => setIsCategoryOpen(false)}
-                        className="flex items-center gap-3 p-2 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800/60 text-slate-700 dark:text-slate-200 text-sm font-medium group transition-colors"
+                        className="flex items-center gap-3 p-2 rounded-xl hover:bg-slate-50 dark:hover:bg-white/5 text-slate-700 dark:text-slate-200 text-sm font-medium group transition-colors"
                       >
-                        <div className={`w-2.5 h-2.5 rounded-full ${CATEGORY_STYLES[cat.id]?.bg || "bg-brand-600"}`} />
+                        <div className={`w-2.5 h-2.5 rounded-full ${CATEGORY_STYLES[cat.id]?.bg || "bg-brand-500"}`} />
                         <span>{cat.name}</span>
                       </Link>
                     ))}
@@ -94,8 +94,8 @@ export default function Header() {
               href="/about"
               className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
                 pathname === "/about"
-                  ? "text-brand-600 dark:text-brand-400 bg-brand-50/60 dark:bg-brand-950/40"
-                  : "text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-slate-800/50"
+                  ? "text-brand-600 dark:text-brand-400 bg-brand-50/60 dark:bg-brand-400/10"
+                  : "text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-white/5"
               }`}
             >
               About
@@ -106,7 +106,7 @@ export default function Header() {
           <div className="flex items-center gap-2">
             <button
               onClick={() => setIsSearchOpen(true)}
-              className="flex items-center gap-2 px-3 py-1.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/80 dark:bg-slate-800/40 text-slate-500 dark:text-slate-400 text-xs hover:border-slate-300 dark:hover:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all shadow-sm"
+              className="flex items-center gap-2 px-3 py-1.5 rounded-xl border border-slate-200 dark:border-white/10 bg-slate-50/80 dark:bg-[#151d21]/60 text-slate-500 dark:text-slate-300 text-xs hover:border-slate-300 dark:hover:border-brand-400/50 hover:bg-slate-100 dark:hover:bg-[#151d21] transition-all shadow-sm"
             >
               <Search className="w-3.5 h-3.5" />
               <span className="hidden sm:inline">Search tools...</span>
@@ -117,7 +117,7 @@ export default function Header() {
             {/* Mobile menu hamburger */}
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="md:hidden flex items-center justify-center w-9 h-9 rounded-xl border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-300"
+              className="md:hidden flex items-center justify-center w-9 h-9 rounded-xl border border-slate-200 dark:border-white/10 text-slate-600 dark:text-slate-300"
               aria-label="Toggle Menu"
             >
               {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -127,7 +127,7 @@ export default function Header() {
 
         {/* Mobile menu drawer */}
         {isMobileMenuOpen && (
-          <div className="md:hidden border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-4 py-4 space-y-2">
+          <div className="md:hidden border-t border-slate-200 dark:border-white/10 bg-white dark:bg-[#090d0f] px-4 py-4 space-y-2">
             <Link
               href="/"
               onClick={() => setIsMobileMenuOpen(false)}

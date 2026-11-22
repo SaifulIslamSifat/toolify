@@ -58,8 +58,8 @@ export default function HomePage() {
       {/* 1. Hero Section */}
       <section className="relative pt-10 sm:pt-16 pb-12 overflow-hidden bg-gradient-to-b from-brand-50/60 via-transparent to-transparent dark:from-brand-950/20">
         {/* Ambient Gradient Lighting */}
-        <div className="absolute top-1/4 left-1/3 -translate-x-1/2 -translate-y-1/2 w-[550px] h-[340px] bg-gradient-to-tr from-brand-500/15 via-indigo-500/10 to-transparent blur-3xl pointer-events-none rounded-full" />
-        <div className="absolute top-1/3 right-1/4 w-[450px] h-[300px] bg-gradient-to-br from-cyan-500/10 via-purple-500/10 to-transparent blur-3xl pointer-events-none rounded-full" />
+        <div className="absolute top-1/4 left-1/3 -translate-x-1/2 -translate-y-1/2 w-[550px] h-[340px] bg-gradient-to-tr from-brand-400/15 via-emerald-500/10 to-transparent blur-3xl pointer-events-none rounded-full" />
+        <div className="absolute top-1/3 right-1/4 w-[450px] h-[300px] bg-gradient-to-br from-emerald-500/10 via-brand-400/10 to-transparent blur-3xl pointer-events-none rounded-full" />
 
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="flex flex-col lg:flex-row items-center justify-between gap-10 lg:gap-14 text-center lg:text-left">
@@ -73,7 +73,7 @@ export default function HomePage() {
               {/* Main Headline */}
               <h1 className="text-4xl sm:text-6xl font-black text-slate-900 dark:text-white tracking-tight leading-[1.08] mb-6">
                 Everything You Need,{" "}
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-600 via-indigo-500 to-purple-600">
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-500 via-emerald-400 to-teal-400 dark:from-brand-400 dark:via-emerald-300 dark:to-teal-300">
                   All in One Place.
                 </span>
               </h1>
@@ -142,8 +142,8 @@ export default function HomePage() {
             <div className="flex-shrink-0 flex flex-col items-center justify-center relative w-full lg:w-auto">
               <div className="relative p-5 sm:p-6 rounded-3xl border border-slate-200/90 dark:border-slate-800 bg-white/80 dark:bg-slate-900/70 shadow-elevated backdrop-blur-xl flex flex-col items-center justify-center overflow-hidden transition-all duration-300 hover:shadow-glow group">
                 {/* Soft ambient corner glows inside the card */}
-                <div className="absolute -top-10 -right-10 w-28 h-28 rounded-full bg-brand-500/10 dark:bg-brand-500/20 blur-2xl pointer-events-none" />
-                <div className="absolute -bottom-10 -left-10 w-28 h-28 rounded-full bg-indigo-500/10 dark:bg-cyan-500/20 blur-2xl pointer-events-none" />
+                <div className="absolute -top-10 -right-10 w-28 h-28 rounded-full bg-brand-500/10 dark:bg-brand-400/20 blur-2xl pointer-events-none" />
+                <div className="absolute -bottom-10 -left-10 w-28 h-28 rounded-full bg-emerald-500/10 dark:bg-emerald-500/20 blur-2xl pointer-events-none" />
 
                 <Interactive3DSphere />
 
@@ -239,7 +239,7 @@ export default function HomePage() {
       {/* 4. Featured Tools Section */}
       <ScrollReveal>
         <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
-          <div className="rounded-3xl border border-brand-200 dark:border-brand-900/60 bg-gradient-to-br from-brand-50/50 via-white to-indigo-50/30 dark:from-slate-900 dark:via-slate-900/90 dark:to-brand-950/30 p-8 sm:p-12 shadow-sm">
+          <div className="rounded-3xl border border-slate-200 dark:border-white/10 bg-gradient-to-br from-brand-50/50 via-white to-emerald-50/30 dark:from-[#090d0f] dark:via-[#0e1316] dark:to-black p-8 sm:p-12 shadow-sm">
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
               <div>
                 <span className="text-xs font-bold uppercase tracking-wider text-brand-600 dark:text-brand-400">
@@ -305,7 +305,7 @@ export default function HomePage() {
             </div>
 
             <div className="p-6 rounded-2xl border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm text-center">
-              <div className="w-12 h-12 rounded-xl bg-purple-50 dark:bg-purple-950/60 text-purple-600 dark:text-purple-400 flex items-center justify-center mx-auto mb-4">
+              <div className="w-12 h-12 rounded-xl bg-teal-50 dark:bg-teal-950/60 text-teal-600 dark:text-teal-400 flex items-center justify-center mx-auto mb-4">
                 <CheckCircle2 className="w-6 h-6" />
               </div>
               <h3 className="text-base font-bold text-slate-900 dark:text-white mb-2">Genuinely Functional</h3>

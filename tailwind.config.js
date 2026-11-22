@@ -9,33 +9,44 @@ module.exports = {
   darkMode: "class",
   safelist: [
     {
-      pattern: /(from|to|via)-(purple|rose|red|amber|orange|emerald|teal|blue|cyan|violet|pink|indigo)-(400|500|600|700)/,
+      pattern: /(from|to|via)-(lime|emerald|teal|cyan|amber|orange|rose|red|zinc|slate)-(400|500|600|700)/,
     },
   ],
   theme: {
     extend: {
       colors: {
+        // Signature Framer-inspired palette: Electric Lime on Deep Obsidian Black
         brand: {
-          50: "#eef2ff",
-          100: "#e0e7ff",
-          200: "#c7d2fe",
-          300: "#a5b4fc",
-          400: "#818cf8",
-          500: "#6366f1",
-          600: "#4f46e5",
-          700: "#4338ca",
-          800: "#3730a3",
-          900: "#312e81",
-          950: "#1e1b4b",
+          50: "#f7fee7",
+          100: "#ecfccb",
+          200: "#d9f99d",
+          300: "#bef264",
+          400: "#b7f36b", // Reference electric lime #b7f36b
+          500: "#a3e635",
+          600: "#65a30d",
+          700: "#4d7c0f",
+          800: "#3f6212",
+          900: "#365314",
+          950: "#090d0f",
         },
+        // Cyber Mint / Emerald Accent
         accent: {
-          50: "#eff6ff",
-          100: "#dbeafe",
-          400: "#60a5fa",
-          500: "#3b82f6",
-          600: "#2563eb",
-          700: "#1d4ed8",
-          950: "#172554",
+          50: "#f0fdf4",
+          100: "#dcfce7",
+          400: "#4ade80",
+          500: "#22c55e",
+          600: "#16a34a",
+          700: "#15803d",
+          950: "#052e16",
+        },
+        // Deep Charcoal Obsidian (never navy, never purple)
+        charcoal: {
+          700: "#323d44",
+          800: "#242e34",
+          850: "#1a2227",
+          900: "#12171a",
+          950: "#090d0f",
+          1000: "#000000",
         },
       },
       fontFamily: {
@@ -43,9 +54,10 @@ module.exports = {
       },
       boxShadow: {
         subtle: "0 1px 3px 0 rgba(0, 0, 0, 0.05), 0 1px 2px 0 rgba(0, 0, 0, 0.03)",
-        card: "0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03)",
-        elevated: "0 10px 25px -5px rgba(0, 0, 0, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.04)",
-        glow: "0 0 25px -5px rgba(99, 102, 241, 0.25)",
+        card: "0 4px 6px -1px rgba(0, 0, 0, 0.25), 0 2px 4px -1px rgba(0, 0, 0, 0.15)",
+        elevated: "0 10px 25px -5px rgba(0, 0, 0, 0.4), 0 8px 10px -6px rgba(0, 0, 0, 0.2)",
+        glow: "0 0 25px -5px rgba(183, 243, 107, 0.35)",
+        glowMint: "0 0 25px -5px rgba(52, 211, 153, 0.35)",
       },
     },
   },

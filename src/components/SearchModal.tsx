@@ -65,11 +65,11 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
       className="fixed inset-0 z-50 flex items-start justify-center pt-16 sm:pt-24 px-4 bg-slate-900/60 backdrop-blur-sm animate-in fade-in duration-150 cursor-pointer"
     >
       <div
-        className="w-full max-w-3xl overflow-hidden rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-2xl transition-all cursor-default"
+        className="w-full max-w-3xl overflow-hidden rounded-2xl bg-white dark:bg-[#090d0f] border border-slate-200 dark:border-white/10 shadow-2xl transition-all cursor-default"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Search Input Bar */}
-        <div className="relative flex items-center px-5 py-4 border-b border-slate-200 dark:border-slate-800">
+        <div className="relative flex items-center px-5 py-4 border-b border-slate-200 dark:border-white/10">
           <Search className="w-5.5 h-5.5 text-slate-400 mr-3.5 flex-shrink-0" />
           <input
             ref={inputRef}
@@ -124,15 +124,15 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
                     onMouseEnter={() => setSelectedIndex(idx)}
                     className={`flex items-center justify-between p-3 rounded-xl transition-colors ${
                       idx === selectedIndex
-                        ? "bg-brand-50 dark:bg-brand-950/40 border border-brand-200 dark:border-brand-800/60"
-                        : "hover:bg-slate-50 dark:hover:bg-slate-800/50 border border-transparent"
+                        ? "bg-brand-50 dark:bg-brand-400/10 border border-brand-200 dark:border-brand-400/30"
+                        : "hover:bg-slate-50 dark:hover:bg-white/5 border border-transparent"
                     }`}
                   >
                     <div className="flex items-center gap-3 min-w-0">
                       <div
                         className={`w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0 border ${
                           idx === selectedIndex
-                            ? "bg-brand-600 text-white border-brand-500"
+                            ? "bg-brand-400 text-black border-brand-400 font-bold"
                             : `${theme.bg} ${theme.text} ${theme.border}`
                         }`}
                       >
@@ -144,7 +144,7 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
                             {tool.name}
                           </span>
                           {tool.badge && (
-                            <span className="px-1.5 py-0.5 text-[10px] font-bold rounded bg-brand-100 dark:bg-brand-900/60 text-brand-700 dark:text-brand-300">
+                            <span className="px-1.5 py-0.5 text-[10px] font-bold rounded bg-brand-100 dark:bg-brand-400/20 text-brand-700 dark:text-brand-300">
                               {tool.badge}
                             </span>
                           )}
@@ -155,7 +155,7 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
                       </div>
                     </div>
                     <div className="flex items-center gap-2 flex-shrink-0 ml-2">
-                      <span className="text-[11px] font-medium text-slate-400 capitalize px-2 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800">
+                      <span className="text-[11px] font-medium text-slate-400 capitalize px-2 py-0.5 rounded-full bg-slate-100 dark:bg-white/5">
                         {tool.category}
                       </span>
                       <ArrowRight className="w-4 h-4 text-slate-400" />
@@ -168,7 +168,7 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
         </div>
 
         {/* Footer info */}
-        <div className="flex items-center justify-between px-4 py-2.5 bg-slate-50 dark:bg-slate-950/40 border-t border-slate-200 dark:border-slate-800 text-xs text-slate-500">
+        <div className="flex items-center justify-between px-4 py-2.5 bg-slate-50 dark:bg-black border-t border-slate-200 dark:border-white/10 text-xs text-slate-500">
           <div className="flex items-center gap-4">
             <span className="flex items-center gap-1">
               <kbd className="px-1.5 py-0.5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded text-[10px]">

@@ -59,7 +59,7 @@ export default function CategoryPage({ params }: CategoryPageProps) {
       {(() => {
         const theme = CATEGORY_STYLES[category.id] || CATEGORY_STYLES.developer;
         return (
-          <div className="mb-10 p-8 rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-6">
+          <div className="mb-10 p-8 rounded-3xl border border-slate-200 dark:border-white/10 bg-white dark:bg-[#090d0f] shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-6">
             <div className="flex items-center gap-4">
               <div
                 className={`w-14 h-14 rounded-2xl ${theme.bg} ${theme.text} border ${theme.border} flex items-center justify-center flex-shrink-0 shadow-sm`}
@@ -71,7 +71,7 @@ export default function CategoryPage({ params }: CategoryPageProps) {
                   <h1 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white">
                     {category.name}
                   </h1>
-                  <span className="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">
+                  <span className="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-slate-100 dark:bg-white/5 text-slate-600 dark:text-slate-300">
                     {tools.length} tools
                   </span>
                 </div>

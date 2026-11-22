@@ -99,9 +99,10 @@ export default function ParticleBackground() {
       ctx.clearRect(0, 0, width, height);
 
       const isDarkMode = document.documentElement.classList.contains("dark");
-      // In light mode: use ultra-soft brand lavender/periwinkle so particles feel like subtle stardust, not dark specks
-      const dotColor = isDarkMode ? "129, 140, 248" : "165, 180, 252";
-      const lineColor = isDarkMode ? "99, 102, 241" : "199, 210, 254";
+      // In dark mode: vibrant electric lime dots with subtle glow against pure obsidian black
+      // In light mode: soft slate/graphite stardust dots
+      const dotColor = isDarkMode ? "183, 243, 107" : "100, 116, 139";
+      const lineColor = isDarkMode ? "183, 243, 107" : "203, 213, 225";
 
       // Reset connections
       for (let i = 0; i < particles.length; i++) {

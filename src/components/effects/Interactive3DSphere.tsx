@@ -182,13 +182,13 @@ export default function Interactive3DSphere() {
         sphereRadius * 0.95
       );
       if (isDarkMode) {
-        coreGrad.addColorStop(0, "rgba(99, 102, 241, 0.18)");
-        coreGrad.addColorStop(0.5, "rgba(56, 189, 248, 0.08)");
-        coreGrad.addColorStop(1, "rgba(99, 102, 241, 0)");
+        coreGrad.addColorStop(0, "rgba(183, 243, 107, 0.16)");
+        coreGrad.addColorStop(0.5, "rgba(16, 185, 129, 0.08)");
+        coreGrad.addColorStop(1, "rgba(183, 243, 107, 0)");
       } else {
-        coreGrad.addColorStop(0, "rgba(99, 102, 241, 0.12)");
-        coreGrad.addColorStop(0.55, "rgba(165, 180, 252, 0.06)");
-        coreGrad.addColorStop(1, "rgba(99, 102, 241, 0)");
+        coreGrad.addColorStop(0, "rgba(24, 24, 27, 0.10)");
+        coreGrad.addColorStop(0.55, "rgba(82, 82, 91, 0.05)");
+        coreGrad.addColorStop(1, "rgba(24, 24, 27, 0)");
       }
       ctx.beginPath();
       ctx.arc(centerX, centerY, sphereRadius * 0.95, 0, Math.PI * 2);
@@ -211,15 +211,15 @@ export default function Interactive3DSphere() {
           ctx.setLineDash([]);
           ctx.lineWidth = isDarkMode ? 1.1 : 1.0;
           ctx.strokeStyle = isDarkMode
-            ? "rgba(129, 140, 248, 0.50)"
-            : "rgba(79, 70, 229, 0.38)";
+            ? "rgba(183, 243, 107, 0.60)"
+            : "rgba(24, 24, 27, 0.45)";
         } else {
           // Back of sphere: soft dashed depth
           ctx.setLineDash([2, 4]);
           ctx.lineWidth = 0.7;
           ctx.strokeStyle = isDarkMode
-            ? "rgba(99, 102, 241, 0.20)"
-            : "rgba(165, 180, 252, 0.22)";
+            ? "rgba(183, 243, 107, 0.20)"
+            : "rgba(113, 113, 122, 0.22)";
         }
         ctx.stroke();
       }
@@ -260,8 +260,8 @@ export default function Interactive3DSphere() {
             ctx.moveTo(p1.x2d, p1.y2d);
             ctx.lineTo(p2.x2d, p2.y2d);
             ctx.strokeStyle = isDarkMode
-              ? `rgba(129, 140, 248, ${lineAlpha})`
-              : `rgba(79, 70, 229, ${lineAlpha})`;
+              ? `rgba(183, 243, 107, ${lineAlpha})`
+              : `rgba(24, 24, 27, ${lineAlpha})`;
             ctx.lineWidth = 0.85;
             ctx.stroke();
           }
@@ -284,12 +284,12 @@ export default function Interactive3DSphere() {
           ctx.arc(p.x2d, p.y2d, radius, 0, Math.PI * 2);
 
           if (isDarkMode) {
-            ctx.fillStyle = "rgba(56, 189, 248, 0.95)";
-            ctx.shadowColor = "rgba(129, 140, 248, 0.8)";
+            ctx.fillStyle = "rgba(183, 243, 107, 0.98)";
+            ctx.shadowColor = "rgba(183, 243, 107, 0.85)";
             ctx.shadowBlur = 8;
           } else {
-            ctx.fillStyle = "rgba(79, 70, 229, 0.95)";
-            ctx.shadowColor = "rgba(99, 102, 241, 0.35)";
+            ctx.fillStyle = "rgba(24, 24, 27, 0.95)";
+            ctx.shadowColor = "rgba(24, 24, 27, 0.35)";
             ctx.shadowBlur = 4;
           }
         } else {
@@ -298,9 +298,9 @@ export default function Interactive3DSphere() {
           ctx.arc(p.x2d, p.y2d, radius, 0, Math.PI * 2);
 
           if (isDarkMode) {
-            ctx.fillStyle = "rgba(99, 102, 241, 0.45)";
+            ctx.fillStyle = "rgba(183, 243, 107, 0.35)";
           } else {
-            ctx.fillStyle = "rgba(165, 180, 252, 0.45)";
+            ctx.fillStyle = "rgba(113, 113, 122, 0.40)";
           }
           ctx.shadowBlur = 0;
         }
@@ -330,7 +330,7 @@ export default function Interactive3DSphere() {
   return (
     <div className="relative flex items-center justify-center select-none pointer-events-none">
       {/* Ambient decorative glowing backdrop */}
-      <div className="absolute w-52 h-52 rounded-full bg-gradient-to-tr from-brand-500/15 via-indigo-500/10 to-transparent dark:from-brand-500/25 dark:to-cyan-500/20 blur-2xl pointer-events-none" />
+      <div className="absolute w-52 h-52 rounded-full bg-gradient-to-tr from-brand-400/20 via-emerald-500/10 to-transparent dark:from-brand-400/25 dark:to-emerald-500/15 blur-2xl pointer-events-none" />
       <canvas
         ref={canvasRef}
         aria-label="Interactive 3D Digital Sphere"

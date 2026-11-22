@@ -17,7 +17,8 @@ export default function ThemeToggle() {
       } else {
         document.documentElement.classList.remove("dark");
       }
-    } else if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+    } else {
+      // Default to dark theme as primary site color scheme
       setTheme("dark");
       document.documentElement.classList.add("dark");
     }
@@ -36,7 +37,7 @@ export default function ThemeToggle() {
 
   if (!mounted) {
     return (
-      <div className="w-9 h-9 rounded-xl border border-slate-200 dark:border-slate-800 bg-white/50 dark:bg-slate-900/50" />
+      <div className="w-9 h-9 rounded-xl border border-slate-200 dark:border-white/10 bg-white/50 dark:bg-[#090d0f]" />
     );
   }
 
@@ -44,9 +45,9 @@ export default function ThemeToggle() {
     <button
       onClick={toggleTheme}
       aria-label="Toggle theme"
-      className="flex items-center justify-center w-9 h-9 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 hover:text-brand-600 dark:hover:text-brand-400 hover:border-brand-300 dark:hover:border-brand-700 shadow-sm transition-all"
+      className="flex items-center justify-center w-9 h-9 rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-[#090d0f] text-slate-600 dark:text-slate-300 hover:text-brand-600 dark:hover:text-brand-400 hover:border-brand-300 dark:hover:border-brand-400/50 shadow-sm transition-all"
     >
-      {theme === "light" ? <Moon className="w-4 h-4" /> : <Sun className="w-4 h-4" />}
+      {theme === "light" ? <Moon className="w-4 h-4" /> : <Sun className="w-4 h-4 text-brand-400" />}
     </button>
   );
 }

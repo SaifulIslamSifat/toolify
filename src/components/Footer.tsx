@@ -6,13 +6,13 @@ export default function Footer() {
   const popularTools = getPopularTools().slice(0, 6);
 
   return (
-    <footer className="border-t border-slate-200 dark:border-slate-800/80 bg-white dark:bg-slate-950 text-slate-600 dark:text-slate-400 text-sm">
+    <footer className="border-t border-slate-200 dark:border-white/10 bg-white dark:bg-black text-slate-600 dark:text-slate-400 text-sm">
       {/* Trust & Guarantee Banner */}
-      <div className="border-b border-slate-200/60 dark:border-slate-800/60 bg-slate-50/50 dark:bg-slate-900/30">
+      <div className="border-b border-slate-200/60 dark:border-white/10 bg-slate-50/50 dark:bg-[#090d0f]/80">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-brand-50 dark:bg-brand-950/60 text-brand-600 dark:text-brand-400 flex items-center justify-center flex-shrink-0">
+              <div className="w-10 h-10 rounded-xl bg-brand-50 dark:bg-[#151d21] border border-slate-200/60 dark:border-white/10 text-brand-600 dark:text-brand-400 flex items-center justify-center flex-shrink-0">
                 <ShieldCheck className="w-5 h-5" />
               </div>
               <div>
@@ -21,7 +21,7 @@ export default function Footer() {
               </div>
             </div>
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-accent-50 dark:bg-accent-950/60 text-accent-600 dark:text-accent-400 flex items-center justify-center flex-shrink-0">
+              <div className="w-10 h-10 rounded-xl bg-accent-50 dark:bg-[#151d21] border border-slate-200/60 dark:border-white/10 text-accent-600 dark:text-accent-400 flex items-center justify-center flex-shrink-0">
                 <Zap className="w-5 h-5" />
               </div>
               <div>
@@ -30,7 +30,7 @@ export default function Footer() {
               </div>
             </div>
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 flex items-center justify-center flex-shrink-0">
+              <div className="w-10 h-10 rounded-xl bg-emerald-50 dark:bg-[#151d21] border border-slate-200/60 dark:border-white/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center flex-shrink-0">
                 <Lock className="w-5 h-5" />
               </div>
               <div>
@@ -48,11 +48,11 @@ export default function Footer() {
           {/* Brand Info */}
           <div className="lg:col-span-2 space-y-4">
             <Link href="/" className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-lg bg-brand-600 flex items-center justify-center text-white">
-                <Wrench className="w-4 h-4" />
+              <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-brand-500 to-emerald-400 flex items-center justify-center text-black font-bold">
+                <Wrench className="w-4 h-4 text-black" />
               </div>
               <span className="text-xl font-black text-slate-900 dark:text-white">
-                Toolify<span className="text-brand-600">.</span>
+                Toolify<span className="text-brand-600 dark:text-brand-400">.</span>
               </span>
             </Link>
             <p className="text-xs sm:text-sm text-slate-500 max-w-sm leading-relaxed">

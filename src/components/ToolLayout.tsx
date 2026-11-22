@@ -129,7 +129,7 @@ export default function ToolLayout({ tool, children }: ToolLayoutProps) {
             className={`flex items-center gap-1.5 px-3 py-2 rounded-xl border text-xs font-semibold transition-all ${
               isFavorite
                 ? "border-amber-300 bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-300"
-                : "border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 hover:border-slate-300 dark:hover:border-slate-700"
+                : "border-slate-200 dark:border-white/10 bg-white dark:bg-[#090d0f] text-slate-600 dark:text-slate-300 hover:border-slate-300 dark:hover:border-brand-400/50"
             }`}
           >
             <Star className={`w-3.5 h-3.5 ${isFavorite ? "fill-amber-400 text-amber-500" : ""}`} />
@@ -139,7 +139,7 @@ export default function ToolLayout({ tool, children }: ToolLayoutProps) {
           <button
             onClick={handleShare}
             aria-label="Share tool link"
-            className="flex items-center gap-1.5 px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 hover:border-slate-300 dark:hover:border-slate-700 text-xs font-semibold transition-all"
+            className="flex items-center gap-1.5 px-3 py-2 rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-[#090d0f] text-slate-600 dark:text-slate-300 hover:border-slate-300 dark:hover:border-brand-400/50 text-xs font-semibold transition-all"
           >
             {copiedShare ? (
               <>
@@ -157,7 +157,7 @@ export default function ToolLayout({ tool, children }: ToolLayoutProps) {
       </div>
 
       {/* 3. Main Tool Workspace (The Interactive Core) */}
-      <div className="mb-12 rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/90 shadow-elevated overflow-hidden">
+      <div className="mb-12 rounded-3xl border border-slate-200 dark:border-white/10 bg-white dark:bg-[#090d0f] shadow-elevated overflow-hidden">
         {children}
       </div>
 
@@ -177,7 +177,7 @@ export default function ToolLayout({ tool, children }: ToolLayoutProps) {
             {tool.howToSteps.map((step, idx) => (
               <div
                 key={idx}
-                className="relative flex flex-col p-6 rounded-2xl border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm"
+                className="relative flex flex-col p-6 rounded-2xl border border-slate-200/80 dark:border-white/10 bg-white dark:bg-[#090d0f] shadow-sm"
               >
                 <div className={`w-8 h-8 rounded-xl ${theme.bg} ${theme.text} border ${theme.border} font-bold text-sm flex items-center justify-center mb-3`}>
                   {idx + 1}
@@ -209,7 +209,7 @@ export default function ToolLayout({ tool, children }: ToolLayoutProps) {
               return (
                 <div
                   key={idx}
-                  className="rounded-2xl border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 overflow-hidden"
+                  className="rounded-2xl border border-slate-200/80 dark:border-white/10 bg-white dark:bg-[#090d0f] overflow-hidden"
                 >
                   <button
                     onClick={() => setOpenFaqIndex(isOpen ? null : idx)}
@@ -223,7 +223,7 @@ export default function ToolLayout({ tool, children }: ToolLayoutProps) {
                     />
                   </button>
                   {isOpen && (
-                    <div className="px-5 pb-5 text-xs sm:text-sm text-slate-500 dark:text-slate-400 leading-relaxed border-t border-slate-100 dark:border-slate-800 pt-3">
+                    <div className="px-5 pb-5 text-xs sm:text-sm text-slate-500 dark:text-slate-400 leading-relaxed border-t border-slate-100 dark:border-white/10 pt-3">
                       {faq.answer}
                     </div>
                   )}
@@ -236,7 +236,7 @@ export default function ToolLayout({ tool, children }: ToolLayoutProps) {
 
       {/* 6. Related Tools */}
       {relatedTools.length > 0 && (
-        <div className="pt-6 border-t border-slate-200/80 dark:border-slate-800">
+        <div className="pt-6 border-t border-slate-200/80 dark:border-white/10">
           <div className="flex items-center justify-between mb-6">
             <div className="flex items-center gap-2">
               <Sparkles className="w-5 h-5 text-brand-600 dark:text-brand-400" />

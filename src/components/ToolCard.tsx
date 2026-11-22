@@ -47,7 +47,7 @@ export default function ToolCard({ tool }: ToolCardProps) {
   };
 
   return (
-    <div className="group relative flex flex-col justify-between rounded-2xl border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900 p-5 shadow-sm hover:shadow-card hover:border-brand-300 dark:hover:border-brand-700/60 transition-all duration-200">
+    <div className="group relative flex flex-col justify-between rounded-2xl border border-slate-200/90 dark:border-white/10 bg-white dark:bg-[#090d0f] p-5 shadow-sm hover:shadow-card hover:border-brand-400/50 dark:hover:border-brand-400/50 transition-all duration-200">
       <div>
         {/* Header row: Icon & Badge + Favorite */}
         <div className="flex items-center justify-between mb-3.5">
@@ -58,7 +58,7 @@ export default function ToolCard({ tool }: ToolCardProps) {
           </div>
           <div className="flex items-center gap-1.5">
             {tool.badge && (
-              <span className="px-2 py-0.5 text-[10px] font-bold rounded-full bg-brand-50 dark:bg-brand-950/80 text-brand-700 dark:text-brand-300 border border-brand-200 dark:border-brand-800">
+              <span className="px-2 py-0.5 text-[10px] font-bold rounded-full bg-brand-50 dark:bg-brand-400/10 text-brand-700 dark:text-brand-300 border border-brand-200 dark:border-brand-400/30">
                 {tool.badge}
               </span>
             )}
@@ -90,7 +90,7 @@ export default function ToolCard({ tool }: ToolCardProps) {
       </div>
 
       {/* Footer link */}
-      <div className="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-between">
+      <div className="mt-4 pt-3 border-t border-slate-100 dark:border-white/10 flex items-center justify-between">
         <span className="text-[11px] font-medium text-slate-400 capitalize">
           {tool.category.replace("-", " ")}
         </span>

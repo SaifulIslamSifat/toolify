@@ -7,7 +7,7 @@ export const CATEGORIES: CategoryInfo[] = [
     slug: "image",
     description: "Compress, resize, crop, convert formats, and edit photos instantly in your browser.",
     icon: "Image",
-    gradient: "from-purple-500 to-indigo-600",
+    gradient: "from-brand-400 to-emerald-600",
   },
   {
     id: "pdf",
@@ -47,7 +47,7 @@ export const CATEGORIES: CategoryInfo[] = [
     slug: "developer",
     description: "Essential utilities for coders: formatters, validators, hashers, and generators.",
     icon: "Code2",
-    gradient: "from-violet-500 to-purple-600",
+    gradient: "from-amber-500 to-orange-600",
   },
   {
     id: "generators",
@@ -63,7 +63,7 @@ export const CATEGORIES: CategoryInfo[] = [
     slug: "seo",
     description: "Analyze meta tags, create robots.txt, preview search snippets, and optimize sites.",
     icon: "Search",
-    gradient: "from-indigo-500 to-blue-600",
+    gradient: "from-emerald-500 to-cyan-600",
   },
   {
     id: "internet",

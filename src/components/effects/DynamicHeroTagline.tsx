@@ -68,7 +68,7 @@ export default function DynamicHeroTagline() {
     <div
       ref={badgeRef}
       // Fixed border dimensions for both taglines so the dot continuously follows the border without resetting or glitching
-      className="relative inline-flex items-center w-full sm:w-[485px] max-w-[485px] h-[40px] rounded-full bg-white/80 dark:bg-slate-900/80 border border-slate-200/90 dark:border-slate-800 shadow-sm backdrop-blur-md"
+      className="relative inline-flex items-center w-full sm:w-[485px] max-w-[485px] h-[40px] rounded-full bg-white/80 dark:bg-[#090d0f]/90 border border-slate-200/90 dark:border-white/10 shadow-sm backdrop-blur-md"
     >
       {/* Animated circular glowing dot traveling continuously along the exact border */}
       <svg
@@ -91,7 +91,7 @@ export default function DynamicHeroTagline() {
         </circle>
 
         {/* Outer Brand Circular Dot */}
-        <circle r="3" className="fill-brand-600 dark:fill-indigo-300">
+        <circle r="3" className="fill-brand-600 dark:fill-brand-400">
           <animateMotion dur="5.5s" repeatCount="indefinite" path={pathD} />
         </circle>
 

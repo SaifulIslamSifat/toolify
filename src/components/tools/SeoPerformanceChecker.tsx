@@ -426,7 +426,7 @@ export default function SeoPerformanceChecker() {
         y: y - 55,
         width: width - 80,
         height: 65,
-        color: rgb(0.26, 0.22, 0.79), // Brand Indigo
+        color: rgb(0.04, 0.05, 0.06), // Obsidian Black Header Banner
       });
 
       page.drawText("TOOLIFY SEO & PERFORMANCE AUDIT", {
@@ -434,7 +434,7 @@ export default function SeoPerformanceChecker() {
         y: y - 18,
         size: 16,
         font: fontBold,
-        color: rgb(1, 1, 1),
+        color: rgb(0.72, 0.95, 0.42), // Electric lime accent #b7f36b
       });
 
       page.drawText(`Domain: ${domain}  •  Date: ${new Date(auditTimestamp).toLocaleDateString()}`, {
@@ -442,7 +442,7 @@ export default function SeoPerformanceChecker() {
         y: y - 38,
         size: 10,
         font: fontRegular,
-        color: rgb(0.85, 0.88, 1),
+        color: rgb(0.9, 0.9, 0.9),
       });
 
       y -= 85;
@@ -759,7 +759,7 @@ export default function SeoPerformanceChecker() {
           <button
             onClick={() => handleAudit()}
             disabled={isLoading}
-            className="px-7 py-3.5 rounded-2xl bg-gradient-to-r from-brand-600 to-indigo-600 hover:from-brand-500 hover:to-indigo-500 text-white font-bold text-sm sm:text-base shadow-glow flex items-center justify-center gap-2.5 transition-all disabled:opacity-50 flex-shrink-0 cursor-pointer"
+            className="px-7 py-3.5 rounded-2xl bg-gradient-to-r from-brand-500 to-emerald-400 hover:from-brand-400 hover:to-emerald-300 text-black font-bold text-sm sm:text-base shadow-glow flex items-center justify-center gap-2.5 transition-all disabled:opacity-50 flex-shrink-0 cursor-pointer"
           >
             {isLoading ? (
               <>
@@ -862,7 +862,7 @@ export default function SeoPerformanceChecker() {
               <button
                 onClick={handleExportDoc}
                 disabled={isExportingDoc}
-                className="px-4 py-2 rounded-xl bg-indigo-50 dark:bg-indigo-950/50 border border-indigo-200 dark:border-indigo-800 text-indigo-700 dark:text-indigo-300 hover:bg-indigo-100 dark:hover:bg-indigo-900/60 font-semibold text-xs flex items-center gap-2 transition-colors cursor-pointer shadow-sm"
+                className="px-4 py-2 rounded-xl bg-slate-100 dark:bg-[#151d21] border border-slate-200 dark:border-white/10 text-slate-800 dark:text-slate-200 hover:border-brand-400 hover:text-brand-500 font-semibold text-xs flex items-center gap-2 transition-colors cursor-pointer shadow-sm"
               >
                 <FileText className="w-4 h-4" />
                 <span>{isExportingDoc ? "Generating..." : "Download Word DOC"}</span>
