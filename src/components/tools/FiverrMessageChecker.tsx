@@ -45,6 +45,17 @@ export const POLICY_RULES: PolicyRule[] = [
     compliantPhrase: "complete the order via Fiverr",
   },
   {
+    id: "money_word",
+    category: "Payment Terms",
+    severity: "high",
+    pattern: /\b(moneys?|monies|m0ney)\b/gi,
+    label: "Money Keyword",
+    explanation:
+      "Direct mentions of 'money' trigger Fiverr's automated compliance monitors and financial screening filters. Off-platform financial discussions violate Fiverr TOS.",
+    compliantPhrase: "budget / custom offer amount on Fiverr",
+    customSafeWord: "m-oney",
+  },
+  {
     id: "payment_processors",
     category: "Payment Terms",
     severity: "high",
